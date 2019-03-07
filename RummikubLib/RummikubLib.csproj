@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{42B53BCA-4E6C-4ACB-989F-7889F0F603A1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Rummikub</RootNamespace>
-    <AssemblyName>Rummikub</AssemblyName>
+    <ProjectGuid>{65B417C0-46D6-47A1-ACB6-A37D700035D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RummikubLib</RootNamespace>
+    <AssemblyName>RummikubLib</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,17 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Combinatorics.cs" />
+    <Compile Include="IScoreThresholdSimulationResults.cs" />
+    <Compile Include="IScoreThresholdSimulator.cs" />
+    <Compile Include="Game\ITileBag.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="ScoreThresholdSimulationResults.cs" />
+    <Compile Include="ScoreThresholdSimulator.cs" />
+    <Compile Include="Scoring\IScoreCharacteriser.cs" />
+    <Compile Include="Scoring\IScoringSet.cs" />
+    <Compile Include="Game\ITile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RummikubLib\RummikubLib.csproj">
-      <Project>{65b417c0-46d6-47a1-acb6-a37d700035d7}</Project>
-      <Name>RummikubLib</Name>
-    </ProjectReference>
+    <Compile Include="Scoring\Result.cs" />
+    <Compile Include="Scoring\ScoreCharacteriser.cs" />
+    <Compile Include="Scoring\ScoringSet.cs" />
+    <Compile Include="Scoring\ScoringSetType.cs" />
+    <Compile Include="Game\Tile.cs" />
+    <Compile Include="Game\TileColor.cs" />
+    <Compile Include="Game\TileEqualityComparerByValue.cs" />
+    <Compile Include="Game\TileBag.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
