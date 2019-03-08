@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Scoring\ScoreCharacteriserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simulation\ScoreThresholdSimulationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics;
 
@@ -18,7 +19,7 @@ namespace RummikubLib.Game
 
         readonly Stack<ITile> tiles;
 
-        public TileBag()
+        public TileBag(Random randomSource = null)
         {
             var unshuffledTiles = new List<ITile>(2 * ColorsForNumberedTiles.Length * ValuesForNumberedTiles.Length + 2);
 
@@ -34,7 +35,7 @@ namespace RummikubLib.Game
             unshuffledTiles.Add(Tile.CreateJoker());
             unshuffledTiles.Add(Tile.CreateJoker());
 
-            tiles = new Stack<ITile>(unshuffledTiles.SelectPermutation());
+            tiles = new Stack<ITile>(unshuffledTiles.SelectPermutation(randomSource));
         }
 
         public int Count => tiles.Count;

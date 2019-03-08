@@ -7,7 +7,9 @@ namespace RummikubLib.Simulation
 {
     public class ScoreThresholdSimulation : IBernoulliSamplingSimulation
     {
-        public ScoreThresholdSimulation(int trialCount, int tileCount, int threshold)
+        readonly Random randomSource;
+
+        public ScoreThresholdSimulation(int trialCount, int tileCount, int threshold, Random randomSource = null)
         {
             if (trialCount <= 0)
             {
@@ -23,6 +25,8 @@ namespace RummikubLib.Simulation
             {
                 throw new ArgumentOutOfRangeException(nameof(threshold));
             }
+
+            this.randomSource = randomSource ?? new Random();
 
             TrialCount = trialCount;
             TileCount = tileCount;
@@ -50,7 +54,7 @@ namespace RummikubLib.Simulation
 
             for (int i = 0; i < TrialCount; ++i)
             {
-                var result = new Trial(TileCount, Threshold).Run();
+                var result = new Trial(TileCount, Threshold, randomSource).Run();
                 results.AddResult(result);
             }
 
@@ -62,16 +66,18 @@ namespace RummikubLib.Simulation
         {
             readonly int tileCount;
             readonly int threshold;
+            readonly Random randomSource;
 
-            public Trial(int tileCount, int threshold)
+            public Trial(int tileCount, int threshold, Random randomSource)
             {
                 this.tileCount = tileCount;
                 this.threshold = threshold;
+                this.randomSource = randomSource;
             }
 
             public Result Run()
             {
-                var bag = new TileBag();
+                var bag = new TileBag(randomSource);
                 var tiles = new List<ITile>(tileCount);
 
                 for (int i = 0; i < tileCount; ++i)
