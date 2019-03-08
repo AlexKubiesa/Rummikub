@@ -1,15 +1,15 @@
 ﻿using System;
 using RummikubLib.Scoring;
 
-namespace RummikubLib
+namespace RummikubLib.Simulation
 {
-    public class ScoreThresholdSimulationResults : IScoreThresholdSimulationResults
+    public class BernoulliSamplingPartialResults : IBernoulliSamplingPartialResults
     {
-        public ScoreThresholdSimulationResults()
+        public BernoulliSamplingPartialResults()
         {
             Successes = 0;
             Failures = 0;
-            Uncertainty = 0;
+            Inconclusive = 0;
             Count = 0;
         }
 
@@ -17,14 +17,9 @@ namespace RummikubLib
 
         public int Failures { get; private set; }
 
-        public int Uncertainty { get; private set; }
+        public int Inconclusive { get; private set; }
 
         public int Count { get; private set; }
-
-        public Range GetSuccessRate()
-        {
-            return new Range(Successes, Successes + Uncertainty) / Count;
-        }
 
         public void AddResult(Result result)
         {
@@ -41,7 +36,7 @@ namespace RummikubLib
                     return;
 
                 case Result.Maybe:
-                    Uncertainty += 1;
+                    Inconclusive += 1;
                     Count += 1;
                     return;
 

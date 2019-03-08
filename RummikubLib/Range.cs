@@ -29,6 +29,11 @@ namespace RummikubLib
 
         public double Max { get; }
 
+        public Range Union(Range other)
+        {
+            return new Range(Math.Min(Min, other.Min), Math.Max(Max, other.Max));
+        }
+
         public static Range operator *(Range range, double multiplier)
         {
             if (double.IsNaN(multiplier))

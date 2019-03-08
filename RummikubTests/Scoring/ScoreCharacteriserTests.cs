@@ -165,12 +165,12 @@ namespace RummikubTests.Scoring
                 .SetName("Overlapping run and group, where the group is better")
         };
 
-        ScoreCharacteriser scoreCharacteriser;
+        IScoreCharacteriser scoreCharacteriser;
 
         [SetUp]
         public void SetUp()
         {
-            scoreCharacteriser = new ScoreCharacteriser();
+            scoreCharacteriser = ScoreCharacteriser.Instance;
         }
 
         [Test]

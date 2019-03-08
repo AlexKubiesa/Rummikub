@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics;
 
 namespace RummikubLib.Game
 {
@@ -15,7 +16,7 @@ namespace RummikubLib.Game
 
         static readonly int[] ValuesForNumberedTiles = Enumerable.Range(1, 13).ToArray();
 
-        readonly IList<ITile> tiles;
+        readonly Stack<ITile> tiles;
 
         public TileBag()
         {
@@ -33,16 +34,14 @@ namespace RummikubLib.Game
             unshuffledTiles.Add(Tile.CreateJoker());
             unshuffledTiles.Add(Tile.CreateJoker());
 
-            tiles = unshuffledTiles.Shuffle();
+            tiles = new Stack<ITile>(unshuffledTiles.SelectPermutation());
         }
 
         public int Count => tiles.Count;
 
         public ITile DrawTile()
         {
-            var tile = tiles[tiles.Count - 1];
-            tiles.RemoveAt(tiles.Count - 1);
-            return tile;
+            return tiles.Pop();
         }
     }
 }

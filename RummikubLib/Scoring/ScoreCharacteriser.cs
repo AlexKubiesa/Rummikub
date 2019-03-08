@@ -4,8 +4,14 @@ using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
 {
-    public class ScoreCharacteriser : IScoreCharacteriser
+    class ScoreCharacteriser : IScoreCharacteriser
     {
+        public static IScoreCharacteriser Instance { get; } = new ScoreCharacteriser();
+
+        ScoreCharacteriser()
+        {
+        }
+
         public Result IsScoreLessThanThreshold(IReadOnlyCollection<ITile> tiles, int threshold)
         {
             return new Calculation(tiles.ToList(), threshold).Execute();
