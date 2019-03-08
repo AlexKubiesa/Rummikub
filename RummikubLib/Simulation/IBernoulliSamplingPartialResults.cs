@@ -13,11 +13,6 @@
 
     public static class BernoulliSamplingPartialResultsExtensions
     {
-        public static Range GetSuccessRate(this IBernoulliSamplingPartialResults partialResults)
-        {
-            return new Range(partialResults.Successes, partialResults.Successes + partialResults.Inconclusive) / partialResults.Count;
-        }
-
         public static IBernoulliSamplingResults TreatInconclusiveAsSuccess(
             this IBernoulliSamplingPartialResults partialResults)
         {

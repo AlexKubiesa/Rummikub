@@ -27,9 +27,12 @@ namespace Rummikub
             Console.WriteLine($"Trials over threshold: {results.Failures}");
             Console.WriteLine($"Inconclusive trials: {results.Inconclusive}");
 
-            var successRate = results.GetSuccessRate();
+            double successRate = results.Successes / (double) results.Count;
+            double successOrInconclusiveRate = (results.Successes + results.Inconclusive) / (double) results.Count;
+            double inconclusiveRate = results.Inconclusive / (double) results.Count;
 
-            Console.WriteLine($"Success rate: {successRate.Min:P1} - {successRate.Max:P1}");
+            Console.WriteLine($"Success rate: {successRate:P1} - {successOrInconclusiveRate:P1}");
+            Console.WriteLine($"Rate of inconclusive trials: {inconclusiveRate:P1}");
             Console.WriteLine($"Computing a {confidenceLevel * 100}% confidence interval for the probability that the score is under the threshold...");
 
             var confidenceInterval = BernoulliConfidenceIntervalProvider.Instance.GetConfidenceInterval(results, confidenceLevel);
