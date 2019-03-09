@@ -85,7 +85,7 @@ namespace RummikubLib.Scoring
             }
 
             // If doing an explicit score calculation would take too long, don't bother.
-            if (ScoringSet.GetScoringSets(component).Skip(MaximumNumberOfScoringSetsForExplicitScoreCalculation).Any())
+            if (ScoringSet.GetScoringSetsUpToEquivalence(component).Skip(MaximumNumberOfScoringSetsForExplicitScoreCalculation).Any())
             {
                 score = 0;
                 return false;

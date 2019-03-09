@@ -14,21 +14,20 @@ namespace RummikubLib.Scoring
 
         public int GetScore(IReadOnlyCollection<ITile> tiles)
         {
-            var scoringSetCombinations = 
-                ScoringSet.GetScoringSets(tiles)
-                .GetSubsets()
-                .Where(x => !ContainsOverlappingScoringSets(x));
+            var scoringSetsUpToEquivalence = ScoringSet.GetScoringSetsUpToEquivalence(tiles).ToArray();
+
+            var scoringSetCombinations = scoringSetsUpToEquivalence
+                .Concat(scoringSetsUpToEquivalence)
+                .GetSublists()
+                .Where(combination =>
+                    tiles.All(tile => 
+                        combination.Count(scoringSet =>
+                            scoringSet.Tiles.Contains(tile, TileEqualityComparerByValue.Instance)) <=
+                        tiles.Count(otherTile => TileEqualityComparerByValue.Instance.Equals(tile, otherTile))));
 
             return scoringSetCombinations
-                .Select(x => x.Sum(scoringSet => scoringSet.GetScore()))
+                .Select(combination => combination.Sum(scoringSet => scoringSet.GetScore()))
                 .Max();
-        }
-
-        static bool ContainsOverlappingScoringSets(IEnumerable<IScoringSet> scoringSetCombination)
-        {
-            return scoringSetCombination
-                .GetPairs()
-                .Any(pair => pair.Item1.Tiles.Intersect(pair.Item2.Tiles).Any());
         }
     }
 }

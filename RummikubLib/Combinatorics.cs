@@ -8,25 +8,15 @@ namespace RummikubLib
     {
         public static IEnumerable<Tuple<T, T>> GetPairs<T>(this IEnumerable<T> source)
         {
-            if (!source.Any())
-            {
-                yield break;
-            }
-
-            var first = source.First();
-
-            foreach (var element in source.Skip(1))
-            {
-                yield return Tuple.Create(first, element);
-            }
-
-            foreach (var pair in source.Skip(1).GetPairs())
-            {
-                yield return pair;
-            }
+            return source.GetSublistsOfSize(2).Select(list => Tuple.Create(list[0], list[1]));
         }
 
-        public static IEnumerable<List<T>> GetCombinations<T>(this IEnumerable<T> source, int size)
+        public static IEnumerable<Tuple<T, T, T>> GetTriples<T>(this IEnumerable<T> source)
+        {
+            return source.GetSublistsOfSize(3).Select(list => Tuple.Create(list[0], list[1], list[2]));
+        }
+
+        public static IEnumerable<List<T>> GetSublistsOfSize<T>(this IEnumerable<T> source, int size)
         {
             if (size < 0)
             {
@@ -39,26 +29,28 @@ namespace RummikubLib
                 yield break;
             }
 
-            if (source.Count() < size)
+            var sourceStack = new Stack<T>(source);
+
+            if (sourceStack.Count < size)
             {
                 yield break;
             }
 
-            var first = source.First();
+            var first = sourceStack.Pop();
 
-            foreach (var combinationWithFirstElement in source.Skip(1).GetCombinations(size - 1))
+            foreach (var subsetWithoutFirstElement in sourceStack.GetSublistsOfSize(size - 1))
             {
-                combinationWithFirstElement.Add(first);
-                yield return combinationWithFirstElement;
+                var subsetWithFirstElement = new List<T>(subsetWithoutFirstElement) { first };
+                yield return subsetWithFirstElement;
             }
 
-            foreach (var combinationWithoutFirstElement in source.Skip(1).GetCombinations(size))
+            foreach (var subsetWithoutFirstElement in sourceStack.GetSublistsOfSize(size))
             {
-                yield return combinationWithoutFirstElement;
+                yield return subsetWithoutFirstElement;
             }
         }
 
-        public static IEnumerable<List<T>> GetSubsets<T>(this IEnumerable<T> source)
+        public static IEnumerable<List<T>> GetSublists<T>(this IEnumerable<T> source)
         {
             var sourceStack = new Stack<T>(source);
 
@@ -70,7 +62,7 @@ namespace RummikubLib
 
             var first = sourceStack.Pop();
 
-            foreach (var subsetWithoutFirstElement in sourceStack.GetSubsets())
+            foreach (var subsetWithoutFirstElement in sourceStack.GetSublists())
             {
                 var subsetWithFirstElement = new List<T>(subsetWithoutFirstElement) {first};
                 yield return subsetWithoutFirstElement;

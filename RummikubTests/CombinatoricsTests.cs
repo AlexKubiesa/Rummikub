@@ -37,7 +37,7 @@ namespace RummikubTests
         [TestCaseSource(nameof(GetSubsetsTestCases))]
         public void TestGetSubsets(IEnumerable<int> set, IEnumerable<IEnumerable<int>> expectedSubsets)
         {
-            var actualSubsets = set.GetSubsets();
+            var actualSubsets = set.GetSublists();
             Assert.That(actualSubsets, Is.EquivalentTo(expectedSubsets).Using(new CollectionEqualityComparer<int>()));
         }
     }

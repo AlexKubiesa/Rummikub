@@ -8,8 +8,8 @@ namespace Rummikub
     {
         static void Main(string[] args)
         {
-            const int trialCount = 2000;
-            const int tileCount = 15;
+            const int trialCount = 3000;
+            const int tileCount = 20;
             const int threshold = 30;
             const double confidenceLevel = 0.95;
 
