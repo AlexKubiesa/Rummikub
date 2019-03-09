@@ -39,6 +39,60 @@ namespace RummikubLib.Scoring
                 : null;
         }
 
+        public static IEnumerable<IScoringSet> GetMaximalScoringSetsUpToEquivalence(IReadOnlyCollection<ITile> tiles)
+        {
+            var maximalGroups = new List<IScoringSet>();
+            var maximalRuns = new List<IScoringSet>();
+
+            foreach (var tile in tiles.Where(t => !t.IsJoker))
+            {
+                if (!maximalGroups.Any(x => x.Tiles.Contains(tile)))
+                {
+                    var potentialGroup = tiles
+                        .Where(t => t.Value == tile.Value)
+                        .Distinct(TileEqualityComparerByValue.Instance)
+                        .ToArray();
+
+                    if (potentialGroup.Length >= 3)
+                    {
+                        maximalGroups.Add(new ScoringSet(potentialGroup, ScoringSetType.Group));
+                    }
+                }
+
+                if (!maximalRuns.Any(x => x.Tiles.Contains(tile)))
+                {
+                    var tilesOfSameColor = tiles
+                        .Where(t => t.Color == tile.Color)
+                        .Distinct(TileEqualityComparerByValue.Instance)
+                        .OrderBy(t => t.Value)
+                        .ToArray();
+
+                    int tileIndex = 
+                        tilesOfSameColor.FindIndex(t => TileEqualityComparerByValue.Instance.Equals(t, tile));
+                    int potentialRunFirstIndex =
+                        tilesOfSameColor.FindIndex((t, i) => t.Value - i == tile.Value - tileIndex);
+                    int indexAfterPotentialRun =
+                        tilesOfSameColor.FindIndex((t, i) => t.Value - i > tile.Value - tileIndex);
+                    int potentialRunLastIndex = indexAfterPotentialRun == -1
+                        ? tilesOfSameColor.Length - 1
+                        : indexAfterPotentialRun - 1;
+                    int potentialRunLength = potentialRunLastIndex - potentialRunFirstIndex + 1;
+
+                    if (potentialRunLength >= 3)
+                    {
+                        var run = tilesOfSameColor
+                            .Skip(potentialRunFirstIndex)
+                            .Take(potentialRunLength)
+                            .ToArray();
+
+                        maximalRuns.Add(new ScoringSet(run, ScoringSetType.Run));
+                    }
+                }
+            }
+
+            return maximalGroups.Union(maximalRuns);
+        }
+
         static bool ContainsDuplicates(IEnumerable<ITile> tiles)
         {
             return tiles.GetPairs().Any(pair => TileEqualityComparerByValue.Instance.Equals(pair.Item1, pair.Item2));

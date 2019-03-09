@@ -14,85 +14,76 @@ namespace RummikubLib.Scoring
 
         public Result IsScoreLessThanThreshold(IReadOnlyCollection<ITile> tiles, int threshold)
         {
-            return new Calculation(tiles.ToList(), threshold).Execute();
+            return IsScoreLessThanThresholdDestructive(tiles.ToList(), threshold);
         }
 
-        static IScoringSet GetMinimalScoringSetOrDefault(IEnumerable<ITile> tiles)
+        static Result IsScoreLessThanThresholdDestructive(List<ITile> tiles, int threshold)
         {
-            return tiles.GetCombinations(3).Select(ScoringSet.CreateOrDefault).FirstOrDefault(x => x != null);
-        }
+            int scoreSoFar = 0;
 
-        static IScoringSet GetNonConflictingScoringSetOrDefault(IEnumerable<ITile> tiles)
-        {
-            var minimalScoringSets = tiles.GetCombinations(3).Select(ScoringSet.CreateOrDefault).Where(x => x != null);
-            return minimalScoringSets.FirstOrDefault(set =>
-                minimalScoringSets.All(
-                    other => other.Tiles.SequenceEqual(set.Tiles) || !ScoringSetsConflict(set, other)));
-        }
-
-        static bool ScoringSetsConflict(IScoringSet first, IScoringSet second)
-        {
-            return first.Tiles.Intersect(second.Tiles).Any();
-        }
-
-        class Calculation
-        {
-            readonly ICollection<ITile> tiles;
-
-            int threshold;
-
-            public Calculation(ICollection<ITile> tiles, int threshold)
+            if (scoreSoFar >= threshold)
             {
-                this.tiles = tiles;
-                this.threshold = threshold;
+                return Result.No;
             }
 
-            public Result Execute()
+            RemoveJokers(tiles);
+
+            var partition = PartitionProvider.Instance.GetPartition(tiles);
+
+            var inconclusiveComponents = new List<IReadOnlyCollection<ITile>>();
+            foreach (var component in partition)
             {
-                if (threshold <= 0)
+                if (TryGetScoreForComponent(component, out int scoreFromComponent))
                 {
-                    return Result.No;
+                    scoreSoFar += scoreFromComponent;
                 }
-
-                RemoveJokers();
-
-                var setToRemove = GetNonConflictingScoringSetOrDefault(tiles);
-                while (setToRemove != null)
+                else
                 {
-                    RemoveScoringSet(setToRemove);
-
-                    if (threshold <= 0)
-                    {
-                        return Result.No;
-                    }
-
-                    setToRemove = GetNonConflictingScoringSetOrDefault(tiles);
-                }
-
-                return GetMinimalScoringSetOrDefault(tiles) == null
-                    ? Result.Yes
-                    : Result.Maybe;
-            }
-
-            void RemoveJokers()
-            {
-                var jokers = tiles.Where(t => t.IsJoker).ToArray();
-
-                foreach (var joker in jokers)
-                {
-                    tiles.Remove(joker);
+                    inconclusiveComponents.Add(component);
                 }
             }
 
-            void RemoveScoringSet(IScoringSet scoringSet)
+            if (scoreSoFar >= threshold)
             {
-                foreach (var tile in scoringSet.Tiles)
-                {
-                    tiles.Remove(tile);
-                }
-
-                threshold -= scoringSet.GetScore();
+                return Result.No;
             }
+
+            if (inconclusiveComponents.Count == 0 && scoreSoFar < threshold)
+            {
+                return Result.Yes;
+            }
+
+            return Result.Maybe;
+        }
+
+        static void RemoveJokers(ICollection<ITile> tiles)
+        {
+            var jokers = tiles.Where(t => t.IsJoker).ToArray();
+
+            foreach (var joker in jokers)
+            {
+                tiles.Remove(joker);
+            }
+        }
+
+        static bool TryGetScoreForComponent(IReadOnlyCollection<ITile> component, out int score)
+        {
+            if (component.Count < 3)
+            {
+                score = 0;
+                return true;
+            }
+
+            var scoringSet = ScoringSet.CreateOrDefault(component);
+
+            if (scoringSet == null)
+            {
+                score = 0;
+                return false;
+            }
+
+            score = scoringSet.GetScore();
+            return true;
         }
     }
 }

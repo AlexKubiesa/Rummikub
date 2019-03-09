@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Combinatorics.cs" />
+    <Compile Include="CollectionsHelper.cs" />
+    <Compile Include="Scoring\IPartitionProvider.cs" />
+    <Compile Include="Scoring\PartitionProvider.cs" />
     <Compile Include="Simulation\BernoulliSamplingResults.cs" />
     <Compile Include="Simulation\IBernoulliSamplingResults.cs" />
     <Compile Include="Statistics\BernoulliConfidenceIntervalProvider.cs" />

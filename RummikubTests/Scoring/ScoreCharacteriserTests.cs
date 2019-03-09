@@ -102,11 +102,11 @@ namespace RummikubTests.Scoring
                     new[]
                     {
                         Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 2),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 2),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 2)
+                        Tile.CreateNumberedTile(TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(TileColor.Red, 1),
+                        Tile.CreateNumberedTile(TileColor.Black, 2),
+                        Tile.CreateNumberedTile(TileColor.Blue, 2),
+                        Tile.CreateNumberedTile(TileColor.Red, 2)
                     },
                     9)
                 .Returns(Result.No)
