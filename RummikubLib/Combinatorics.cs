@@ -62,10 +62,9 @@ namespace RummikubLib
         {
             var sourceStack = new Stack<T>(source);
 
-            yield return new List<T>();
-
             if (sourceStack.Count == 0)
             {
+                yield return new List<T>();
                 yield break;
             }
 
