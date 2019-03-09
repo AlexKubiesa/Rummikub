@@ -8,6 +8,8 @@ namespace RummikubLib.Scoring
     {
         public static IScoreCharacteriser Instance { get; } = new ScoreCharacteriser();
 
+        const int MaximumNumberOfScoringSetsForExplicitScoreCalculation = 5;
+
         ScoreCharacteriser()
         {
         }
@@ -76,13 +78,20 @@ namespace RummikubLib.Scoring
 
             var scoringSet = ScoringSet.CreateOrDefault(component);
 
-            if (scoringSet == null)
+            if (scoringSet != null)
+            {
+                score = scoringSet.GetScore();
+                return true;
+            }
+
+            // If doing an explicit score calculation would take too long, don't bother.
+            if (ScoringSet.GetScoringSets(component).Skip(MaximumNumberOfScoringSetsForExplicitScoreCalculation).Any())
             {
                 score = 0;
                 return false;
             }
 
-            score = scoringSet.GetScore();
+            score = ScoreCalculator.Instance.GetScore(component);
             return true;
         }
     }

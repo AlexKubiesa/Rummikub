@@ -57,5 +57,26 @@ namespace RummikubLib
                 yield return combinationWithoutFirstElement;
             }
         }
+
+        public static IEnumerable<List<T>> GetSubsets<T>(this IEnumerable<T> source)
+        {
+            var sourceStack = new Stack<T>(source);
+
+            yield return new List<T>();
+
+            if (sourceStack.Count == 0)
+            {
+                yield break;
+            }
+
+            var first = sourceStack.Pop();
+
+            foreach (var subsetWithoutFirstElement in sourceStack.GetSubsets())
+            {
+                var subsetWithFirstElement = new List<T>(subsetWithoutFirstElement) {first};
+                yield return subsetWithoutFirstElement;
+                yield return subsetWithFirstElement;
+            }
+        }
     }
 }

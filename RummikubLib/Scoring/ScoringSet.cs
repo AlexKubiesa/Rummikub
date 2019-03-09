@@ -39,6 +39,11 @@ namespace RummikubLib.Scoring
                 : null;
         }
 
+        public static IEnumerable<IScoringSet> GetScoringSets(IReadOnlyCollection<ITile> tiles)
+        {
+            return tiles.GetSubsets().Select(CreateOrDefault).Where(x => x != null);
+        }
+
         public static IEnumerable<IScoringSet> GetMaximalScoringSetsUpToEquivalence(IReadOnlyCollection<ITile> tiles)
         {
             var maximalGroups = new List<IScoringSet>();
