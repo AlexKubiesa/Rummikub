@@ -13,9 +13,13 @@ namespace RummikubGraph
 {
     public class MainViewModel
     {
-        readonly HighLowSeries series;
+        readonly object updatePlotLock = new object();
 
-        readonly List<Task<HighLowItem>> tasks;
+        readonly HighLowSeries highLowSeries;
+
+        readonly ScatterSeries scatterSeries;
+
+        readonly List<Task<IScoreThresholdAnalysis>> tasks;
 
         readonly Timer timer;
 
@@ -23,21 +27,31 @@ namespace RummikubGraph
         {
             Plot = new PlotModel
             {
-                Title = "Example 1",
+                Title = "Probability of not being able to lay out tiles in Rummikub",
             };
 
             Plot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 1 });
             Plot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = 106 });
 
-            series = new HighLowSeries();
-            Plot.Series.Add(series);
+            highLowSeries = new HighLowSeries();
+            Plot.Series.Add(highLowSeries);
 
-            tasks = new List<Task<HighLowItem>>();
-            for (int i = 0; i <= 30; ++i)
+            scatterSeries = new ScatterSeries();
+            Plot.Series.Add(scatterSeries);
+
+            scatterSeries.MarkerType = MarkerType.Cross;
+            scatterSeries.MarkerSize = 5;
+            scatterSeries.MarkerStrokeThickness = 1;
+            scatterSeries.MarkerStroke = OxyColor.FromRgb(0, 0, 0);
+
+            //int maxTileCount = DesignerProperties.GetIsInDesignMode() ? 10 : 30;
+
+            tasks = new List<Task<IScoreThresholdAnalysis>>();
+            for (int i = 0; i <= 20; ++i)
             {
                 // Declare tileCount inside the loop to prevent the different tasks from accessing the same variable.
                 int tileCount = i;
-                var task = Task.Run(() => GetDataPoint(tileCount));
+                var task = Task.Run(() => RunAnalysis(tileCount));
                 tasks.Add(task);
             }
 
@@ -46,23 +60,21 @@ namespace RummikubGraph
 
         public PlotModel Plot { get; }
 
-        static HighLowItem GetDataPoint(int tileCount)
+        static IScoreThresholdAnalysis RunAnalysis(int tileCount)
         {
             const int trialCount = 3000;
             const int threshold = 30;
             const double confidenceLevel = 0.95;
 
-            var simulation = new ScoreThresholdSimulation(trialCount, tileCount, threshold);
-            var results = simulation.Run();
+            var analysis = new ScoreThresholdAnalysis(trialCount, tileCount, threshold, confidenceLevel);
+            analysis.Run();
 
-            var confidenceInterval = BernoulliConfidenceIntervalProvider.Instance.GetConfidenceInterval(results, confidenceLevel);
-
-            return new HighLowItem(tileCount, confidenceInterval.Max, confidenceInterval.Min);
+            return analysis;
         }
 
         void UpdatePlot(object state)
         {
-            lock (tasks)
+            lock (updatePlotLock)
             {
                 var completedTasks = tasks.Where(x => x.IsCompleted).ToArray();
 
@@ -70,7 +82,8 @@ namespace RummikubGraph
                 {
                     if (task.Status == TaskStatus.RanToCompletion)
                     {
-                        series.Items.Add(task.Result);
+                        highLowSeries.Items.Add(GetHighLowItem(task.Result));
+                        scatterSeries.Points.Add(GetScatterPoint(task.Result));
                     }
 
                     tasks.Remove(task);
@@ -83,6 +96,17 @@ namespace RummikubGraph
 
                 Plot.InvalidatePlot(true);
             }
+        }
+
+        static HighLowItem GetHighLowItem(IScoreThresholdAnalysis analysis)
+        {
+            return new HighLowItem(analysis.Simulation.TileCount,
+                analysis.Result.ConfidenceInterval.Max, analysis.Result.ConfidenceInterval.Min);
+        }
+
+        static ScatterPoint GetScatterPoint(IScoreThresholdAnalysis analysis)
+        {
+            return new ScatterPoint(analysis.Simulation.TileCount, (analysis.Result.ConfidenceInterval.Max + analysis.Result.ConfidenceInterval.Min) / 2.0);
         }
     }
 }

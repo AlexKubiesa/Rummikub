@@ -5,7 +5,7 @@ using RummikubLib.Scoring;
 
 namespace RummikubLib.Simulation
 {
-    public class ScoreThresholdSimulation : IBernoulliSamplingSimulation
+    public class ScoreThresholdSimulation : IScoreThresholdSimulation
     {
         readonly Random randomSource;
 
@@ -16,7 +16,7 @@ namespace RummikubLib.Simulation
                 throw new ArgumentOutOfRangeException(nameof(trialCount));
             }
 
-            if (tileCount <= 0)
+            if (tileCount < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(tileCount));
             }

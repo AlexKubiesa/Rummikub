@@ -54,6 +54,7 @@
     <Compile Include="Scoring\ScoreCalculator.cs" />
     <Compile Include="Simulation\BernoulliSamplingResults.cs" />
     <Compile Include="Simulation\IBernoulliSamplingResults.cs" />
+    <Compile Include="Simulation\IScoreThresholdSimulation.cs" />
     <Compile Include="Statistics\BernoulliConfidenceIntervalProvider.cs" />
     <Compile Include="Statistics\IBernoulliConfidenceIntervalProvider.cs" />
     <Compile Include="Simulation\IBernoulliSamplingPartialResults.cs" />
@@ -74,6 +75,10 @@
     <Compile Include="Game\TileColor.cs" />
     <Compile Include="Game\TileEqualityComparerByValue.cs" />
     <Compile Include="Game\TileBag.cs" />
+    <Compile Include="Statistics\IScoreThresholdAnalysis.cs" />
+    <Compile Include="Statistics\IScoreThresholdAnalysisResult.cs" />
+    <Compile Include="Statistics\ScoreThresholdAnalysis.cs" />
+    <Compile Include="Statistics\ScoreThresholdAnalysisResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
