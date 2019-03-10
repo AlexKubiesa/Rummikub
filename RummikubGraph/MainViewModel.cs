@@ -10,8 +10,6 @@ namespace RummikubGraph
 {
     public class MainViewModel
     {
-        readonly object updatePlotLock = new object();
-
         readonly List<Task<IScoreThresholdAnalysis>> tasks;
 
         readonly Timer timer;
@@ -48,26 +46,23 @@ namespace RummikubGraph
 
         void UpdateData(object state)
         {
-            lock (updatePlotLock)
+            var completedTasks = tasks.Where(x => x.IsCompleted).ToArray();
+
+            foreach (var task in completedTasks)
             {
-                var completedTasks = tasks.Where(x => x.IsCompleted).ToArray();
-
-                foreach (var task in completedTasks)
+                if (task.Status == TaskStatus.RanToCompletion)
                 {
-                    if (task.Status == TaskStatus.RanToCompletion)
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                            AnalysisData.Add(task.Result));
+                    Application.Current.Dispatcher.Invoke(() =>
+                        AnalysisData.Add(task.Result));
 
-                    }
-
-                    tasks.Remove(task);
                 }
 
-                if (tasks.Count == 0)
-                {
-                    timer.Dispose();
-                }
+                tasks.Remove(task);
+            }
+
+            if (tasks.Count == 0)
+            {
+                timer.Dispose();
             }
         }
     }
