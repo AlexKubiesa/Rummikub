@@ -8,8 +8,6 @@ namespace RummikubLib.Scoring
     {
         public static IScoreCharacteriser Instance { get; } = new ScoreCharacteriser();
 
-        const int MaximumNumberOfScoringSetsForExplicitScoreCalculation = 5;
-
         ScoreCharacteriser()
         {
         }
@@ -21,9 +19,7 @@ namespace RummikubLib.Scoring
 
         static Result IsScoreLessThanThresholdDestructive(List<ITile> tiles, int threshold)
         {
-            int scoreSoFar = 0;
-
-            if (scoreSoFar >= threshold)
+            if (threshold <= 0)
             {
                 return Result.No;
             }
@@ -32,25 +28,14 @@ namespace RummikubLib.Scoring
 
             var partition = PartitionProvider.Instance.GetPartition(tiles);
 
-            var inconclusiveComponents = new List<IReadOnlyCollection<ITile>>();
-            foreach (var component in partition)
-            {
-                if (TryGetScoreForComponent(component, out int scoreFromComponent))
-                {
-                    scoreSoFar += scoreFromComponent;
-                }
-                else
-                {
-                    inconclusiveComponents.Add(component);
-                }
-            }
+            var scoreInterval = partition.Sum(GetScoreIntervalForComponent);
 
-            if (scoreSoFar >= threshold)
+            if (scoreInterval.Min >= threshold)
             {
                 return Result.No;
             }
 
-            if (inconclusiveComponents.Count == 0 && scoreSoFar < threshold)
+            if (scoreInterval.Max < threshold)
             {
                 return Result.Yes;
             }
@@ -68,31 +53,22 @@ namespace RummikubLib.Scoring
             }
         }
 
-        static bool TryGetScoreForComponent(IReadOnlyCollection<ITile> component, out int score)
+        static Range GetScoreIntervalForComponent(IReadOnlyCollection<ITile> component)
         {
             if (component.Count < 3)
             {
-                score = 0;
-                return true;
+                return new Range(0, 0);
             }
 
             var scoringSet = ScoringSet.CreateOrDefault(component);
 
             if (scoringSet != null)
             {
-                score = scoringSet.GetScore();
-                return true;
+                int score = scoringSet.GetScore();
+                return new Range(score, score);
             }
 
-            // If doing an explicit score calculation would take too long, don't bother.
-            if (ScoringSet.GetScoringSetsUpToEquivalence(component).Skip(MaximumNumberOfScoringSetsForExplicitScoreCalculation).Any())
-            {
-                score = 0;
-                return false;
-            }
-
-            score = ScoreCalculator.Instance.GetScore(component);
-            return true;
+            return ScoreIntervalCalculator.Instance.GetScoreInterval(component);
         }
     }
 }
