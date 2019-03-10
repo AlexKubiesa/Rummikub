@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RummikubLib", "RummikubLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RummikubTests", "RummikubTests\RummikubTests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RummikubGraph", "RummikubGraph\RummikubGraph.csproj", "{D4C4F8CB-BE63-4660-B3E3-7AD6F575DF52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C4F8CB-BE63-4660-B3E3-7AD6F575DF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C4F8CB-BE63-4660-B3E3-7AD6F575DF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C4F8CB-BE63-4660-B3E3-7AD6F575DF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C4F8CB-BE63-4660-B3E3-7AD6F575DF52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
