@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RummikubLib
 {
@@ -61,6 +63,19 @@ namespace RummikubLib
             return divisor > 0
                 ? new Range(range.Min / divisor, range.Max / divisor)
                 : new Range(range.Max / divisor, range.Min / divisor);
+        }
+    }
+
+    static class RangeHelper
+    {
+        public static Range Sum(this IEnumerable<Range> source)
+        {
+            return source.Aggregate(new Range(0, 0), (x, y) => new Range(x.Min + y.Min, x.Max + y.Max));
+        }
+
+        public static Range Sum<T>(this IEnumerable<T> source, Func<T, Range> selector)
+        {
+            return source.Select(selector).Aggregate(new Range(0, 0), (x, y) => new Range(x.Min + y.Min, x.Max + y.Max));
         }
     }
 }
