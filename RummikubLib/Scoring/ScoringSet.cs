@@ -13,7 +13,7 @@ namespace RummikubLib.Scoring
                 return null;
             }
 
-            if (ContainsDuplicates(tiles))
+            if (ContainsEquivalentTiles(tiles))
             {
                 return null;
             }
@@ -103,9 +103,20 @@ namespace RummikubLib.Scoring
             return maximalGroups.Union(maximalRuns);
         }
 
-        static bool ContainsDuplicates(IEnumerable<ITile> tiles)
+        static bool ContainsEquivalentTiles(IEnumerable<ITile> tiles)
         {
-            return tiles.GetPairs().Any(pair => TileEqualityComparerByValue.Instance.Equals(pair.Item1, pair.Item2));
+            ITile lastTile = null;
+            foreach (var tile in tiles.OrderBy(t => t.Value).ThenBy(t => t.Color))
+            {
+                if (TileEqualityComparerByValue.Instance.Equals(tile, lastTile))
+                {
+                    return true;
+                }
+
+                lastTile = tile;
+            }
+
+            return false;
         }
 
         static bool IsConsecutiveSetOfIntegers(IEnumerable<int> integers)
