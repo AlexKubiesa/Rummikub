@@ -18,8 +18,10 @@ namespace RummikubGraph
         {
             AnalysisData = new ObservableCollection<IScoreThresholdAnalysis>();
 
+            const int maxTileCount = 106;
+
             tasks = new List<Task<IScoreThresholdAnalysis>>();
-            for (int i = 0; i <= 30; ++i)
+            for (int i = 0; i <= maxTileCount; ++i)
             {
                 // Declare tileCount inside the loop to prevent the different tasks from accessing the same variable.
                 int tileCount = i;

@@ -16,8 +16,8 @@
     <Grid>
         <oxy:Plot Title="Probability of not being able to lay out tiles in Rummikub">
             <oxy:Plot.Axes>
-                <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="106"/>
-                <oxy:LinearAxis Position="Left" Minimum="0" Maximum="1"/>
+                <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="106" Title="Number of tiles drawn"/>
+                <oxy:LinearAxis Position="Left" Minimum="0" Maximum="1" Title="Probability"/>
             </oxy:Plot.Axes>
             <oxy:Plot.Series>
                 <oxy:ScatterErrorSeries ItemsSource="{Binding AnalysisData}"
