@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
-using RummikubLib.Simulation;
+using System.Windows;
 using RummikubLib.Statistics;
 
 namespace RummikubGraph
@@ -15,39 +12,16 @@ namespace RummikubGraph
     {
         readonly object updatePlotLock = new object();
 
-        readonly HighLowSeries highLowSeries;
-
-        readonly ScatterSeries scatterSeries;
-
         readonly List<Task<IScoreThresholdAnalysis>> tasks;
 
         readonly Timer timer;
 
         public MainViewModel()
         {
-            Plot = new PlotModel
-            {
-                Title = "Probability of not being able to lay out tiles in Rummikub",
-            };
-
-            Plot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 1 });
-            Plot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = 106 });
-
-            highLowSeries = new HighLowSeries();
-            Plot.Series.Add(highLowSeries);
-
-            scatterSeries = new ScatterSeries();
-            Plot.Series.Add(scatterSeries);
-
-            scatterSeries.MarkerType = MarkerType.Cross;
-            scatterSeries.MarkerSize = 5;
-            scatterSeries.MarkerStrokeThickness = 1;
-            scatterSeries.MarkerStroke = OxyColor.FromRgb(0, 0, 0);
-
-            //int maxTileCount = DesignerProperties.GetIsInDesignMode() ? 10 : 30;
+            AnalysisData = new ObservableCollection<IScoreThresholdAnalysis>();
 
             tasks = new List<Task<IScoreThresholdAnalysis>>();
-            for (int i = 0; i <= 20; ++i)
+            for (int i = 0; i <= 30; ++i)
             {
                 // Declare tileCount inside the loop to prevent the different tasks from accessing the same variable.
                 int tileCount = i;
@@ -55,10 +29,10 @@ namespace RummikubGraph
                 tasks.Add(task);
             }
 
-            timer = new Timer(UpdatePlot, null, 0, 1000);
+            timer = new Timer(UpdateData, null, 0, 1000);
         }
 
-        public PlotModel Plot { get; }
+        public ObservableCollection<IScoreThresholdAnalysis> AnalysisData { get; }
 
         static IScoreThresholdAnalysis RunAnalysis(int tileCount)
         {
@@ -72,7 +46,7 @@ namespace RummikubGraph
             return analysis;
         }
 
-        void UpdatePlot(object state)
+        void UpdateData(object state)
         {
             lock (updatePlotLock)
             {
@@ -82,8 +56,9 @@ namespace RummikubGraph
                 {
                     if (task.Status == TaskStatus.RanToCompletion)
                     {
-                        highLowSeries.Items.Add(GetHighLowItem(task.Result));
-                        scatterSeries.Points.Add(GetScatterPoint(task.Result));
+                        Application.Current.Dispatcher.Invoke(() =>
+                            AnalysisData.Add(task.Result));
+
                     }
 
                     tasks.Remove(task);
@@ -93,20 +68,7 @@ namespace RummikubGraph
                 {
                     timer.Dispose();
                 }
-
-                Plot.InvalidatePlot(true);
             }
-        }
-
-        static HighLowItem GetHighLowItem(IScoreThresholdAnalysis analysis)
-        {
-            return new HighLowItem(analysis.Simulation.TileCount,
-                analysis.Result.ConfidenceInterval.Max, analysis.Result.ConfidenceInterval.Min);
-        }
-
-        static ScatterPoint GetScatterPoint(IScoreThresholdAnalysis analysis)
-        {
-            return new ScatterPoint(analysis.Simulation.TileCount, (analysis.Result.ConfidenceInterval.Max + analysis.Result.ConfidenceInterval.Min) / 2.0);
         }
     }
 }

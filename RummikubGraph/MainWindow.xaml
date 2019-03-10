@@ -6,11 +6,28 @@
         xmlns:local="clr-namespace:RummikubGraph"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Rummikub Graph" Height="450" Width="800">
+    <Window.Resources>
+        <local:ScatterErrorPointConverter x:Key="ScatterErrorPointConverter"/>
+    </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
     <Grid>
-        <oxy:PlotView Model="{Binding Plot}"/>
+        <oxy:Plot Title="Probability of not being able to lay out tiles in Rummikub">
+            <oxy:Plot.Axes>
+                <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="106"/>
+                <oxy:LinearAxis Position="Left" Minimum="0" Maximum="1"/>
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+                <oxy:ScatterErrorSeries ItemsSource="{Binding AnalysisData}"
+                                        MarkerType="Cross"
+                                        MarkerSize="5"
+                                        MarkerStrokeThickness="1"
+                                        MarkerStroke="Black"
+                                        Mapping="{Binding Source={StaticResource ScatterErrorPointConverter}, Path=ConvertFunc}">
+                </oxy:ScatterErrorSeries>
+            </oxy:Plot.Series>
+        </oxy:Plot>
     </Grid>
 </Window>
