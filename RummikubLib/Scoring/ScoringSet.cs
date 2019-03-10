@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using RummikubLib.Game;
 
@@ -39,16 +41,6 @@ namespace RummikubLib.Scoring
                 : null;
         }
 
-        public static IEnumerable<IScoringSet> GetScoringSets(IReadOnlyCollection<ITile> tiles)
-        {
-            return tiles.GetSublists().Select(CreateOrDefault).Where(x => x != null);
-        }
-
-        public static IEnumerable<IScoringSet> GetScoringSetsUpToEquivalence(IReadOnlyCollection<ITile> tiles)
-        {
-            return tiles.Distinct(TileEqualityComparerByValue.Instance).GetSublists().Select(CreateOrDefault).Where(x => x != null);
-        }
-
         public static IEnumerable<IScoringSet> GetMaximalScoringSetsUpToEquivalence(IReadOnlyCollection<ITile> tiles)
         {
             var maximalGroups = new List<IScoringSet>();
@@ -77,7 +69,7 @@ namespace RummikubLib.Scoring
                         .OrderBy(t => t.Value)
                         .ToArray();
 
-                    int tileIndex = 
+                    int tileIndex =
                         tilesOfSameColor.FindIndex(t => TileEqualityComparerByValue.Instance.Equals(t, tile));
                     int potentialRunFirstIndex =
                         tilesOfSameColor.FindIndex((t, i) => t.Value - i == tile.Value - tileIndex);
@@ -101,6 +93,54 @@ namespace RummikubLib.Scoring
             }
 
             return maximalGroups.Union(maximalRuns);
+        }
+
+        public static IEnumerable<IScoringSet> GetScoringSetsUpToEquivalence(IReadOnlyCollection<ITile> tiles)
+        {
+            return GetMaximalScoringSetsUpToEquivalence(tiles).SelectMany(GetScoringSetsUpToEquivalence);
+        }
+
+        static IEnumerable<IScoringSet> GetScoringSetsUpToEquivalence(IScoringSet scoringSet)
+        {
+            switch (scoringSet.Type)
+            {
+                case ScoringSetType.Group:
+                    return GetContainedGroups(scoringSet);
+                case ScoringSetType.Run:
+                    return GetContainedRuns(scoringSet);
+                default:
+                    throw new InvalidEnumArgumentException("Invalid scoring set type.");
+            }
+        }
+
+        static IEnumerable<IScoringSet> GetContainedGroups(IScoringSet group)
+        {
+            yield return group;
+
+            if (group.Tiles.Count == 3)
+            {
+                yield break;
+            }
+
+            var tiles = group.Tiles.ToArray();
+            yield return new ScoringSet(new[] { tiles[1], tiles[2], tiles[3] }, ScoringSetType.Group );
+            yield return new ScoringSet(new[] { tiles[0], tiles[2], tiles[3] }, ScoringSetType.Group );
+            yield return new ScoringSet(new[] { tiles[0], tiles[1], tiles[3] }, ScoringSetType.Group );
+            yield return new ScoringSet(new[] { tiles[0], tiles[1], tiles[2] }, ScoringSetType.Group );
+        }
+
+        static IEnumerable<IScoringSet> GetContainedRuns(IScoringSet run)
+        {
+            var tiles = run.Tiles.ToArray();
+            for (int runLength = 3; runLength <= tiles.Length; ++runLength)
+            {
+                for (int startIndex = 0; startIndex <= tiles.Length - runLength; ++startIndex)
+                {
+                    var containedRun = new ITile[runLength];
+                    Array.Copy(tiles, startIndex, containedRun, 0, runLength);
+                    yield return new ScoringSet(containedRun, ScoringSetType.Run);
+                }
+            }
         }
 
         static bool ContainsEquivalentTiles(IEnumerable<ITile> tiles)
