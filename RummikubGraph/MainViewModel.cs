@@ -1,9 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using RummikubLib;
 using RummikubLib.Simulation;
 using RummikubLib.Statistics;
 
@@ -12,6 +14,10 @@ namespace RummikubGraph
     public class MainViewModel
     {
         readonly HighLowSeries series;
+
+        readonly List<Task<HighLowItem>> tasks;
+
+        readonly Timer timer;
 
         public MainViewModel()
         {
@@ -23,27 +29,26 @@ namespace RummikubGraph
             Plot.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 1 });
             Plot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = 106 });
 
-            var worker = new BackgroundWorker
-            {
-                WorkerReportsProgress = false,
-                WorkerSupportsCancellation = false
-            };
-
-            const int tileCount = 20;
-            worker.DoWork += Worker_DoWork;
-            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-
-            worker.RunWorkerAsync(tileCount);
-
             series = new HighLowSeries();
-
             Plot.Series.Add(series);
+
+            tasks = new List<Task<HighLowItem>>();
+            for (int i = 0; i <= 30; ++i)
+            {
+                // Declare tileCount inside the loop to prevent the different tasks from accessing the same variable.
+                int tileCount = i;
+                var task = Task.Run(() => GetDataPoint(tileCount));
+                tasks.Add(task);
+            }
+
+            timer = new Timer(UpdatePlot, null, 0, 1000);
         }
 
-        static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        public PlotModel Plot { get; }
+
+        static HighLowItem GetDataPoint(int tileCount)
         {
             const int trialCount = 3000;
-            int tileCount = (int) e.Argument;
             const int threshold = 30;
             const double confidenceLevel = 0.95;
 
@@ -52,21 +57,32 @@ namespace RummikubGraph
 
             var confidenceInterval = BernoulliConfidenceIntervalProvider.Instance.GetConfidenceInterval(results, confidenceLevel);
 
-            e.Result = new HighLowItem(20, confidenceInterval.Max, confidenceInterval.Min);
+            return new HighLowItem(tileCount, confidenceInterval.Max, confidenceInterval.Min);
         }
 
-        void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        void UpdatePlot(object state)
         {
-            var datum = e.Result as HighLowItem;
-
-            lock (series)
+            lock (tasks)
             {
-                series.Items.Add(datum);
+                var completedTasks = tasks.Where(x => x.IsCompleted).ToArray();
+
+                foreach (var task in completedTasks)
+                {
+                    if (task.Status == TaskStatus.RanToCompletion)
+                    {
+                        series.Items.Add(task.Result);
+                    }
+
+                    tasks.Remove(task);
+                }
+
+                if (tasks.Count == 0)
+                {
+                    timer.Dispose();
+                }
+
+                Plot.InvalidatePlot(true);
             }
-
-            Plot.InvalidatePlot(true);
         }
-
-        public PlotModel Plot { get; }
     }
 }
