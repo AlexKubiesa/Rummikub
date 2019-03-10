@@ -17,5 +17,14 @@ namespace RummikubTests.Simulation
             double inconclusiveRate = results.Inconclusive / (double) results.Count;
             Assert.That(inconclusiveRate, Is.LessThan(InconclusiveRateThreshold));
         }
+
+        [Test]
+        public void CheckPerformance()
+        {
+            var simulation = new ScoreThresholdSimulation(1000, 30, 30, new Random(123));
+            var results = simulation.Run();
+            double inconclusiveRate = results.Inconclusive / (double)results.Count;
+            Assert.That(inconclusiveRate, Is.LessThan(InconclusiveRateThreshold));
+        }
     }
 }
