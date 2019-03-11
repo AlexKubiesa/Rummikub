@@ -20,7 +20,6 @@ namespace RummikubLib.Scoring
             var combinations = ScoreCalculationHelper.GetScoringSetCombinations(tiles);
 
             int encounteredCombinations = 0;
-            bool checkedAllCombinations = false;
             int bestScoreSoFar = 0;
             foreach (var combination in combinations.Take(MaximumNumberOfScoringSetCombinationsToCheck + 1))
             {
@@ -28,14 +27,13 @@ namespace RummikubLib.Scoring
 
                 if (encounteredCombinations > MaximumNumberOfScoringSetCombinationsToCheck)
                 {
-                    checkedAllCombinations = true;
                     break;
                 }
 
                 bestScoreSoFar = Math.Max(bestScoreSoFar, ScoreCalculationHelper.GetScoreForCombination(combination));
             }
 
-            return checkedAllCombinations
+            return (encounteredCombinations <= MaximumNumberOfScoringSetCombinationsToCheck)
                 ? new Range(bestScoreSoFar, bestScoreSoFar)
                 : new Range(bestScoreSoFar, double.PositiveInfinity);
         }
