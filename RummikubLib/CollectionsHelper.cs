@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RummikubLib.Collections;
 
 namespace RummikubLib
 {
@@ -29,6 +30,11 @@ namespace RummikubLib
             }
 
             return -1;
+        }
+
+        public static IEnumerable<List<T>> GetSublists<T>(this IReadOnlyList<T> source)
+        {
+            return new Sublists<T>(source);
         }
     }
 }

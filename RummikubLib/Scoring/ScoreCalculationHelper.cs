@@ -12,6 +12,7 @@ namespace RummikubLib.Scoring
 
             return scoringSetsUpToEquivalence
                 .Concat(scoringSetsUpToEquivalence)
+                .ToArray()
                 .GetSublists()
                 .Where(combination =>
                     tiles.All(tile =>

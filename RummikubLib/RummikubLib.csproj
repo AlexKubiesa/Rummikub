@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Combinatorics.cs" />
+    <Compile Include="Collections\Sublists.cs" />
+    <Compile Include="Collections\SublistsEnumerator.cs" />
     <Compile Include="CollectionsHelper.cs" />
     <Compile Include="Scoring\IPartitionProvider.cs" />
     <Compile Include="Scoring\IScoreIntervalCalculator.cs" />
