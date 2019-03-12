@@ -5,13 +5,13 @@ using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
 {
-    public class ScoreIntervalCalculator : IScoreIntervalCalculator
+    public class CombinationSamplingScoreIntervalCalculator : IScoreIntervalCalculator
     {
-        public static IScoreIntervalCalculator Instance { get; } = new ScoreIntervalCalculator();
+        public static IScoreIntervalCalculator Instance { get; } = new CombinationSamplingScoreIntervalCalculator();
 
         const int MaximumNumberOfScoringSetCombinationsToCheck = 5;
 
-        ScoreIntervalCalculator()
+        CombinationSamplingScoreIntervalCalculator()
         {
         }
 

@@ -10,6 +10,11 @@ namespace RummikubLib.Scoring
     {
         public static IScoringSet CreateOrDefault(IReadOnlyCollection<ITile> tiles)
         {
+            if (tiles == null)
+            {
+                throw new ArgumentNullException(nameof(tiles));
+            }
+
             if (tiles.Count < 3 || tiles.Any(t => t.IsJoker))
             {
                 return null;
@@ -39,6 +44,18 @@ namespace RummikubLib.Scoring
             return values.Length == 1
                 ? new ScoringSet(tiles, ScoringSetType.Group)
                 : null;
+        }
+
+        public static IScoringSet Create(IReadOnlyCollection<ITile> tiles)
+        {
+            var scoringSet = CreateOrDefault(tiles);
+
+            if (scoringSet == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(tiles), "The tiles do not form a valid scoring set.");
+            }
+
+            return scoringSet;
         }
 
         public static IEnumerable<IScoringSet> GetMaximalScoringSetsUpToEquivalence(IReadOnlyCollection<ITile> tiles)

@@ -36,6 +36,13 @@ namespace RummikubLib
             return new Range(Math.Min(Min, other.Min), Math.Max(Max, other.Max));
         }
 
+        public Range Intersect(Range other)
+        {
+            double min = Math.Max(Min, other.Min);
+            double max = Math.Min(Max, other.Max);
+            return new Range(min, max);
+        }
+
         public static Range operator *(Range range, double multiplier)
         {
             if (double.IsNaN(multiplier))

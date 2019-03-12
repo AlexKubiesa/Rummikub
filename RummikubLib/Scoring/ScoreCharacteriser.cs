@@ -68,7 +68,12 @@ namespace RummikubLib.Scoring
                 return new Range(score, score);
             }
 
-            return ScoreIntervalCalculator.Instance.GetScoreInterval(component);
+            var range = new Range(0, double.PositiveInfinity);
+
+            range = range.Intersect(KnownScoringSetsScoreIntervalCalculator.Instance.GetScoreInterval(component));
+            range = range.Intersect(CombinationSamplingScoreIntervalCalculator.Instance.GetScoreInterval(component));
+
+            return range;
         }
     }
 }
