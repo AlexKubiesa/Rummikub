@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace RummikubLib.Collections
 {
@@ -8,16 +9,16 @@ namespace RummikubLib.Collections
     {
         readonly IReadOnlyList<T> list;
 
-        readonly int maxSublistSeed;
+        readonly BigInteger maxSublistSeed;
 
-        int sublistSeed;
+        BigInteger sublistSeed;
 
         List<T> current;
 
         public SublistsEnumerator(IReadOnlyList<T> list)
         {
             this.list = list ?? throw new ArgumentNullException(nameof(list));
-            maxSublistSeed = (1 << list.Count) - 1;
+            maxSublistSeed = (new BigInteger(1) << list.Count) - 1;
             sublistSeed = -1;
         }
 
@@ -46,7 +47,7 @@ namespace RummikubLib.Collections
             ++sublistSeed;
 
             current = new List<T>();
-            int bitMask = 1;
+            BigInteger bitMask = 1;
             foreach (var item in list)
             {
                 if ((bitMask & sublistSeed) != 0)
