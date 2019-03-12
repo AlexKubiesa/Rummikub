@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RummikubLib.Game;
 
-namespace RummikubLib.Scoring
+namespace RummikubLib.Scoring.Calculation
 {
     public class CombinationSamplingScoreIntervalCalculator : IScoreIntervalCalculator
     {

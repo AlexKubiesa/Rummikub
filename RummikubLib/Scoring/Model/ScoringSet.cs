@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using RummikubLib.Game;
 
-namespace RummikubLib.Scoring
+namespace RummikubLib.Scoring.Model
 {
     public class ScoringSet : IScoringSet
     {

@@ -40,7 +40,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CombinatoricsTests.cs" />
+    <Compile Include="CollectionsHelperTests.cs" />
     <Compile Include="CollectionEqualityComparer.cs" />
     <Compile Include="Scoring\CombinationSamplingScoreIntervalCalculatorTests.cs" />
     <Compile Include="Scoring\ScoreCharacteriserTests.cs" />

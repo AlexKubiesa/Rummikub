@@ -1,4 +1,4 @@
-﻿namespace RummikubLib.Scoring
+﻿namespace RummikubLib.Scoring.Model
 {
     public enum Result
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using RummikubLib.Game;
-using RummikubLib.Scoring;
+using RummikubLib.Scoring.Calculation;
+using RummikubLib.Scoring.Model;
 
 namespace RummikubLib.Simulation
 {

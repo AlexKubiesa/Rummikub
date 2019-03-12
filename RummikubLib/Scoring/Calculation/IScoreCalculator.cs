@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RummikubLib.Game;
 
-namespace RummikubLib.Scoring
+namespace RummikubLib.Scoring.Calculation
 {
     public interface IScoreCalculator
     {

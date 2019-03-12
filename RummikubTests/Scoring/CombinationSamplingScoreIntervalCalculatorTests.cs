@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using RummikubLib.Game;
-using RummikubLib.Scoring;
+using RummikubLib.Scoring.Calculation;
 
 namespace RummikubTests.Scoring
 {

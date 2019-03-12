@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RummikubLib.Game;
+using RummikubLib.Scoring.Model;
 
-namespace RummikubLib.Scoring
+namespace RummikubLib.Scoring.Calculation
 {
     class ScoreCharacteriser : IScoreCharacteriser
     {
@@ -71,7 +72,11 @@ namespace RummikubLib.Scoring
             var range = new Range(0, double.PositiveInfinity);
 
             range = range.Intersect(KnownScoringSetsScoreIntervalCalculator.Instance.GetScoreInterval(component));
-            range = range.Intersect(CombinationSamplingScoreIntervalCalculator.Instance.GetScoreInterval(component));
+
+            if (component.Count < 50)
+            {
+                range = range.Intersect(CombinationSamplingScoreIntervalCalculator.Instance.GetScoreInterval(component));
+            }
 
             return range;
         }

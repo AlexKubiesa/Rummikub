@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using RummikubLib;
 
 namespace RummikubTests
 {
     [TestFixture]
-    public class CombinatoricsTests
+    public class CollectionsHelperTests
     {
         public static IEnumerable<TestCaseData> GetSublistsTestCases = new[]
         {

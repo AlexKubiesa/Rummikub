@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RummikubLib.Game;
 
-namespace RummikubLib.Scoring
+namespace RummikubLib.Scoring.Calculation
 {
     /// <summary>
     /// Partitions the hand into a set of components whose scores can be computed individually.
