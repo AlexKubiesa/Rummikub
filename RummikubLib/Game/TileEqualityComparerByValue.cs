@@ -22,11 +22,26 @@ namespace RummikubLib.Game
                 return false;
             }
 
+            if (x.IsJoker && y.IsJoker)
+            {
+                return true;
+            }
+
+            if (x.IsJoker || y.IsJoker)
+            {
+                return false;
+            }
+
             return x.Color == y.Color && x.Value == y.Value;
         }
 
         public int GetHashCode(ITile obj)
         {
+            if (obj.IsJoker)
+            {
+                return 1;
+            }
+
             unchecked
             {
                 int hashCode = (int)obj.Color;
