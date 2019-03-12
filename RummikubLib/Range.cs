@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RummikubLib
 {
-    public struct Range
+    public struct Range : IEquatable<Range>
     {
         public Range(double min, double max)
         {
@@ -63,6 +63,29 @@ namespace RummikubLib
             return divisor > 0
                 ? new Range(range.Min / divisor, range.Max / divisor)
                 : new Range(range.Max / divisor, range.Min / divisor);
+        }
+
+        public bool Equals(Range other)
+        {
+            return Min.Equals(other.Min) && Max.Equals(other.Max);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return obj is Range other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Min.GetHashCode() * 397) ^ Max.GetHashCode();
+            }
         }
     }
 
