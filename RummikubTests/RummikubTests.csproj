@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CombinatoricsTests.cs" />
     <Compile Include="CollectionEqualityComparer.cs" />
+    <Compile Include="Scoring\CombinationSamplingScoreIntervalCalculatorTests.cs" />
     <Compile Include="Scoring\ScoreCharacteriserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulation\ScoreThresholdSimulationTests.cs" />
