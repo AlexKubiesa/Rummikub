@@ -13,6 +13,18 @@ namespace RummikubTests.Scoring
         {
             new TestCaseData(
                     new[] { Tile.CreateNumberedTile(TileColor.Black, 1) },
+                    0)
+                .Returns(Result.No)
+                .SetName("No tiles (threshold = 0)"),
+
+            new TestCaseData(
+                    new[] { Tile.CreateNumberedTile(TileColor.Black, 1) },
+                    1)
+                .Returns(Result.Yes)
+                .SetName("No tiles (threshold = 1)"),
+
+            new TestCaseData(
+                    new[] { Tile.CreateNumberedTile(TileColor.Black, 1) },
                     1)
                 .Returns(Result.Yes)
                 .SetName("Single tile"),

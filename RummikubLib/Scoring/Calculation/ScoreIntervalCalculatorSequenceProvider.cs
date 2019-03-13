@@ -11,6 +11,7 @@ namespace RummikubLib.Scoring.Calculation
 
         static readonly IScoreIntervalCalculator[] SequenceForSmallTileCollections =
         {
+            ValueSummingScoreIntervalCalculator.Instance,
             CombinationSamplingScoreIntervalCalculator.Instance,
             KnownScoringSetsScoreIntervalCalculator.Instance
         };

@@ -26,6 +26,11 @@ namespace RummikubLib.Scoring.Calculation
                 return Result.No;
             }
 
+            if (tiles.Count == 0)
+            {
+                return Result.Yes;
+            }
+
             RemoveJokers(tiles);
 
             var partition = PartitionProvider.Instance.GetPartition(tiles);

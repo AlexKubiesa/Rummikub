@@ -60,6 +60,7 @@
     <Compile Include="Scoring\Calculation\ScoreCalculator.cs" />
     <Compile Include="Scoring\Calculation\CombinationSamplingScoreIntervalCalculator.cs" />
     <Compile Include="Scoring\Calculation\ScoreIntervalCalculatorSequenceProvider.cs" />
+    <Compile Include="Scoring\Calculation\ValueSummingScoreIntervalCalculator.cs" />
     <Compile Include="Simulation\BernoulliSamplingResults.cs" />
     <Compile Include="Simulation\IBernoulliSamplingResults.cs" />
     <Compile Include="Simulation\IScoreThresholdSimulation.cs" />
