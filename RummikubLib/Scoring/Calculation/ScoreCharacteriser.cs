@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RummikubLib.Game;
 using RummikubLib.Scoring.Model;
@@ -29,16 +30,23 @@ namespace RummikubLib.Scoring.Calculation
 
             var partition = PartitionProvider.Instance.GetPartition(tiles);
 
-            var scoreInterval = partition.Sum(GetScoreIntervalForComponent);
+            var calculations = partition
+                .Select(component => new ScoreIntervalCalculation(component))
+                .ToArray();
 
-            if (scoreInterval.Min >= threshold)
+            while (calculations.Any(x => x.Step()))
             {
-                return Result.No;
-            }
+                var scoreInterval = calculations.Sum(x => x.ResultSoFar);
 
-            if (scoreInterval.Max < threshold)
-            {
-                return Result.Yes;
+                if (scoreInterval.Min >= threshold)
+                {
+                    return Result.No;
+                }
+
+                if (scoreInterval.Max < threshold)
+                {
+                    return Result.Yes;
+                }
             }
 
             return Result.Maybe;
@@ -54,31 +62,47 @@ namespace RummikubLib.Scoring.Calculation
             }
         }
 
-        static Range GetScoreIntervalForComponent(IReadOnlyCollection<ITile> component)
+        class ScoreIntervalCalculation
         {
-            if (component.Count < 3)
+            readonly IReadOnlyCollection<ITile> component;
+
+            readonly IEnumerator<IScoreIntervalCalculator> enumerator;
+
+            bool finished;
+
+            public ScoreIntervalCalculation(IReadOnlyCollection<ITile> component)
             {
-                return new Range(0, 0);
+                this.component = component ?? throw new ArgumentNullException(nameof(component));
+                enumerator = ScoreIntervalCalculatorSequenceProvider.Instance
+                    .GetScoreIntervalCalculators(component)
+                    .GetEnumerator();
+                ResultSoFar = new Range(0, double.PositiveInfinity);
             }
 
-            var scoringSet = ScoringSet.CreateOrDefault(component);
+            public Range ResultSoFar { get; private set; }
 
-            if (scoringSet != null)
+            public bool Step()
             {
-                int score = scoringSet.GetScore();
-                return new Range(score, score);
+                if (finished)
+                {
+                    return false;
+                }
+
+                if (!enumerator.MoveNext())
+                {
+                    enumerator.Dispose();
+                    finished = true;
+                    return false;
+                }
+
+                if (enumerator.Current == null)
+                {
+                    return true;
+                }
+
+                ResultSoFar = ResultSoFar.Intersect(enumerator.Current.GetScoreInterval(component));
+                return true;
             }
-
-            var range = new Range(0, double.PositiveInfinity);
-
-            range = range.Intersect(KnownScoringSetsScoreIntervalCalculator.Instance.GetScoreInterval(component));
-
-            if (component.Count < 50)
-            {
-                range = range.Intersect(CombinationSamplingScoreIntervalCalculator.Instance.GetScoreInterval(component));
-            }
-
-            return range;
         }
     }
 }

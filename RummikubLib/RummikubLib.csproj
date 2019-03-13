@@ -53,11 +53,13 @@
     <Compile Include="Scoring\Calculation\IPartitionProvider.cs" />
     <Compile Include="Scoring\Calculation\IScoreIntervalCalculator.cs" />
     <Compile Include="Scoring\Calculation\IScoreCalculator.cs" />
+    <Compile Include="Scoring\Calculation\IScoreIntervalCalculatorSequenceProvider.cs" />
     <Compile Include="Scoring\Calculation\KnownScoringSetsScoreIntervalCalculator.cs" />
     <Compile Include="Scoring\Calculation\PartitionProvider.cs" />
     <Compile Include="Scoring\Calculation\ScoreCalculationHelper.cs" />
     <Compile Include="Scoring\Calculation\ScoreCalculator.cs" />
     <Compile Include="Scoring\Calculation\CombinationSamplingScoreIntervalCalculator.cs" />
+    <Compile Include="Scoring\Calculation\ScoreIntervalCalculatorSequenceProvider.cs" />
     <Compile Include="Simulation\BernoulliSamplingResults.cs" />
     <Compile Include="Simulation\IBernoulliSamplingResults.cs" />
     <Compile Include="Simulation\IScoreThresholdSimulation.cs" />
