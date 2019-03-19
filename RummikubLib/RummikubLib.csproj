@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\IMultiset.cs" />
+    <Compile Include="Collections\Multiset.cs" />
     <Compile Include="Collections\Sublists.cs" />
     <Compile Include="Collections\SublistsEnumerator.cs" />
     <Compile Include="CollectionsHelper.cs" />
