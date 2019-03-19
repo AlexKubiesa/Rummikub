@@ -69,7 +69,7 @@ namespace RummikubLib.Scoring.Model
                 {
                     var potentialGroup = tiles
                         .Where(t => t.Value == tile.Value)
-                        .Distinct(TileEqualityComparerByValue.Instance)
+                        .Distinct(TileValueEqualityComparer.Instance)
                         .ToArray();
 
                     if (potentialGroup.Length >= 3)
@@ -82,12 +82,12 @@ namespace RummikubLib.Scoring.Model
                 {
                     var tilesOfSameColor = tiles
                         .Where(t => t.Color == tile.Color)
-                        .Distinct(TileEqualityComparerByValue.Instance)
+                        .Distinct(TileValueEqualityComparer.Instance)
                         .OrderBy(t => t.Value)
                         .ToArray();
 
                     int tileIndex =
-                        tilesOfSameColor.FindIndex(t => TileEqualityComparerByValue.Instance.Equals(t, tile));
+                        tilesOfSameColor.FindIndex(t => TileValueEqualityComparer.Instance.Equals(t, tile));
                     int potentialRunFirstIndex =
                         tilesOfSameColor.FindIndex((t, i) => t.Value - i == tile.Value - tileIndex);
                     int indexAfterPotentialRun =
@@ -165,7 +165,7 @@ namespace RummikubLib.Scoring.Model
             ITile lastTile = null;
             foreach (var tile in tiles.OrderBy(t => t.Value).ThenBy(t => t.Color))
             {
-                if (TileEqualityComparerByValue.Instance.Equals(tile, lastTile))
+                if (TileValueEqualityComparer.Instance.Equals(tile, lastTile))
                 {
                     return true;
                 }

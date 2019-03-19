@@ -82,7 +82,7 @@
     <Compile Include="Scoring\Model\ScoringSetType.cs" />
     <Compile Include="Game\Tile.cs" />
     <Compile Include="Game\TileColor.cs" />
-    <Compile Include="Game\TileEqualityComparerByValue.cs" />
+    <Compile Include="Game\TileValueEqualityComparer.cs" />
     <Compile Include="Game\TileBag.cs" />
     <Compile Include="Statistics\IScoreThresholdAnalysis.cs" />
     <Compile Include="Statistics\IScoreThresholdAnalysisResult.cs" />

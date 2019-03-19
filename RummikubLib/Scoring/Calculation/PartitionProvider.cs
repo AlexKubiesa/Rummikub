@@ -29,7 +29,7 @@ namespace RummikubLib.Scoring.Calculation
                 do
                 {
                     var scoringSetsToMerge = maximalScoringSets.Where(x =>
-                        newComponent.Intersect(x.Tiles, TileEqualityComparerByValue.Instance).Any())
+                        newComponent.Intersect(x.Tiles, TileValueEqualityComparer.Instance).Any())
                         .ToArray();
 
                     foreach (var scoringSet in scoringSetsToMerge)
@@ -47,7 +47,7 @@ namespace RummikubLib.Scoring.Calculation
             {
                 // ReSharper disable once PossibleUnintendedLinearSearchInSet
                 // We want to use a specific equality comparer here, so we have to use the LINQ Contains method.
-                var component = partition.FirstOrDefault(x => x.Contains(tile, TileEqualityComparerByValue.Instance));
+                var component = partition.FirstOrDefault(x => x.Contains(tile, TileValueEqualityComparer.Instance));
 
                 if (component == null)
                 {

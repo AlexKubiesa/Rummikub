@@ -16,7 +16,7 @@ namespace RummikubLib.Scoring.Calculation
         {
             foreach (var scoringSet in HighScoringSets.ScoringSets)
             {
-                if (scoringSet.Tiles.All(t => tiles.Contains(t, TileEqualityComparerByValue.Instance)))
+                if (scoringSet.Tiles.All(t => tiles.Contains(t, TileValueEqualityComparer.Instance)))
                 {
                     return new Range(scoringSet.GetScore(), double.PositiveInfinity);
                 }

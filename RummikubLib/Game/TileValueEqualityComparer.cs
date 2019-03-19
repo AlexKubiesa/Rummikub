@@ -2,11 +2,11 @@
 
 namespace RummikubLib.Game
 {
-    public class TileEqualityComparerByValue : IEqualityComparer<ITile>
+    public class TileValueEqualityComparer : IEqualityComparer<ITile>
     {
-        public static IEqualityComparer<ITile> Instance { get; } = new TileEqualityComparerByValue();
+        public static IEqualityComparer<ITile> Instance { get; } = new TileValueEqualityComparer();
 
-        TileEqualityComparerByValue()
+        TileValueEqualityComparer()
         {
         }
 
