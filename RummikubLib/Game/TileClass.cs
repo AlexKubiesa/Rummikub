@@ -2,7 +2,7 @@
 
 namespace RummikubLib.Game
 {
-    public class TileClass : ITileClass, IEquatable<TileClass>
+    class TileClass : ITileClass, IEquatable<TileClass>
     {
         const int JokerHashCode = 1;
 
@@ -23,16 +23,29 @@ namespace RummikubLib.Game
             return new TileClass(color, value, false);
         }
 
+        readonly int value;
+
         TileClass(TileColor color, int value, bool isJoker)
         {
             Color = color;
-            Value = value;
+            this.value = value;
             IsJoker = isJoker;
         }
 
         public TileColor Color { get; }
 
-        public int Value { get; }
+        public int Value
+        {
+            get
+            {
+                if (IsJoker)
+                {
+                    throw new InvalidOperationException("Jokers do not have a numeric value.");
+                }
+
+                return value;
+            }
+        }
 
         public bool IsJoker { get; }
 
