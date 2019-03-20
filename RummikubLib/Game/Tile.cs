@@ -2,47 +2,32 @@
 
 namespace RummikubLib.Game
 {
-    public class Tile : ITile
+    class Tile : ITile
     {
-        public static ITile CreateNumberedTile(TileColor color, int value)
+        public static ITile Create(int id, ITileClass @class)
         {
-            if (value < 1 || value > 13)
+            if (@class == null)
             {
-                throw new ArgumentOutOfRangeException(nameof(value));
+                throw new ArgumentNullException(nameof(@class));
             }
 
-            return new Tile(color, value, false);
+            return new Tile(id, @class);
         }
 
-        public static ITile CreateJoker()
+        Tile(int id, ITileClass @class)
         {
-            return new Tile(TileColor.None, 0, true);
+            Id = id;
+            Class = @class;
         }
 
-        readonly int value;
+        public int Id { get; }
 
-        Tile(TileColor color, int value, bool isJoker)
-        {
-            Color = color;
-            this.value = value;
-            IsJoker = isJoker;
-        }
+        public ITileClass Class { get; }
 
-        public TileColor Color { get; }
+        public TileColor Color => Class.Color;
 
-        public int Value
-        {
-            get
-            {
-                if (IsJoker)
-                {
-                    throw new InvalidOperationException("Jokers do not have a numeric value.");
-                }
+        public int Value => Class.Value;
 
-                return value;
-            }
-        }
-
-        public bool IsJoker { get; }
+        public bool IsJoker => Class.IsJoker;
     }
 }
