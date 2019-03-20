@@ -65,7 +65,7 @@ namespace RummikubLib.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            return dict.Keys.GetEnumerator();
+            return dict.Where(x => x.Value != 0).Select(x => x.Key).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
