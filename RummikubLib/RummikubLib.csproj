@@ -53,6 +53,8 @@
     <Compile Include="Collections\SublistsEnumerator.cs" />
     <Compile Include="CollectionsHelper.cs" />
     <Compile Include="Game\GameConstants.cs" />
+    <Compile Include="Game\ITileClass.cs" />
+    <Compile Include="Game\TileClass.cs" />
     <Compile Include="Scoring\Calculation\HighScoringSets.cs" />
     <Compile Include="Scoring\Calculation\IPartitionProvider.cs" />
     <Compile Include="Scoring\Calculation\IScoreIntervalCalculator.cs" />
