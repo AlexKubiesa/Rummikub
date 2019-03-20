@@ -8,8 +8,10 @@ namespace RummikubLib.Collections
 
         int CountOf(T item);
 
-        bool IsSubsetOf(IMultiset<T> other);
+        bool SetEquals(IReadOnlyMultiset<T> other);
 
-        bool IsSupersetOf(IMultiset<T> other);
+        bool IsSubsetOf(IReadOnlyMultiset<T> other);
+
+        bool IsSupersetOf(IReadOnlyMultiset<T> other);
     }
 }

@@ -36,12 +36,17 @@ namespace RummikubLib.Collections
             return dict.TryGetValue(item, out int value) ? value : 0;
         }
 
-        public bool IsSubsetOf(IMultiset<T> other)
+        public bool SetEquals(IReadOnlyMultiset<T> other)
+        {
+            return this.Union(other).All(x => CountOf(x) == other.CountOf(x));
+        }
+
+        public bool IsSubsetOf(IReadOnlyMultiset<T> other)
         {
             return this.All(x => CountOf(x) <= other.CountOf(x));
         }
 
-        public bool IsSupersetOf(IMultiset<T> other)
+        public bool IsSupersetOf(IReadOnlyMultiset<T> other)
         {
             return other.All(x => CountOf(x) >= other.CountOf(x));
         }
