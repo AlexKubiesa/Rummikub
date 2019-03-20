@@ -27,6 +27,11 @@ namespace RummikubLib.Collections
 
         public int Count { get; private set; }
 
+        public bool Contains(T item)
+        {
+            return CountOf(item) != 0;
+        }
+
         public int CountOf(T item)
         {
             return dict.TryGetValue(item, out int value) ? value : 0;
