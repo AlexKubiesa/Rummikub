@@ -9,15 +9,14 @@ namespace RummikubLib.Collections
     {
         readonly Dictionary<T, int> dict;
 
-        public Multiset(IEnumerable<T> source, IEqualityComparer<T> comparer = null)
+        public Multiset(IEnumerable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            comparer = comparer ?? EqualityComparer<T>.Default;
-            dict = new Dictionary<T, int>(comparer);
+            dict = new Dictionary<T, int>();
 
             foreach (var item in source)
             {
