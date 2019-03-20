@@ -1,5 +1,5 @@
 ﻿using System;
-using RummikubLib.Scoring.Model;
+using RummikubLib.Scoring;
 
 namespace RummikubLib.Simulation
 {

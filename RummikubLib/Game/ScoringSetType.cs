@@ -1,4 +1,4 @@
-﻿namespace RummikubLib.Scoring.Model
+﻿namespace RummikubLib.Game
 {
     public enum ScoringSetType
     {

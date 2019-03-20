@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using RummikubLib.Game;
-using RummikubLib.Scoring.Model;
 
-namespace RummikubLib.Scoring.Calculation
+namespace RummikubLib.Scoring
 {
     class ScoreCharacteriser : IScoreCharacteriser
     {

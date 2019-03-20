@@ -2,9 +2,8 @@
 using System.Linq;
 using RummikubLib.Collections;
 using RummikubLib.Game;
-using RummikubLib.Scoring.Model;
 
-namespace RummikubLib.Scoring.Calculation
+namespace RummikubLib.Scoring
 {
     class ScoreCalculationHelper
     {

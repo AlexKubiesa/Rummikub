@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using RummikubLib.Game;
 
-namespace RummikubLib.Scoring.Model
+namespace RummikubLib.Game
 {
     public interface IScoringSet
     {

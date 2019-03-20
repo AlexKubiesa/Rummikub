@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using RummikubLib.Game;
 
-namespace RummikubLib.Scoring.Model
+namespace RummikubLib.Game
 {
     public class ScoringSet : IScoringSet
     {

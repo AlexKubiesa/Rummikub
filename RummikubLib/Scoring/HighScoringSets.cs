@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using RummikubLib.Game;
-using RummikubLib.Scoring.Model;
 
-namespace RummikubLib.Scoring.Calculation
+namespace RummikubLib.Scoring
 {
     public static class HighScoringSets
     {

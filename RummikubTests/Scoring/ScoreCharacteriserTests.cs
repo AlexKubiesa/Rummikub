@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using RummikubLib.Game;
-using RummikubLib.Scoring.Calculation;
-using RummikubLib.Scoring.Model;
+using RummikubLib.Scoring;
 
 namespace RummikubTests.Scoring
 {
