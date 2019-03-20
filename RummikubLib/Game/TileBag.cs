@@ -1,39 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using MathNet.Numerics;
 
 namespace RummikubLib.Game
 {
     public class TileBag : ITileBag
     {
-        static readonly TileColor[] ColorsForNumberedTiles =
-        {
-            TileColor.Black,
-            TileColor.Blue,
-            TileColor.Red,
-            TileColor.Yellow
-        };
-
-        static readonly int[] ValuesForNumberedTiles = Enumerable.Range(1, 13).ToArray();
-
         readonly Stack<ITile> tiles;
 
         public TileBag(Random randomSource = null)
         {
-            var unshuffledTiles = new List<ITile>(2 * ColorsForNumberedTiles.Length * ValuesForNumberedTiles.Length + 2);
+            var unshuffledTiles = new List<ITile>(GameConstants.TileCount);
 
-            foreach (var color in ColorsForNumberedTiles)
+            foreach (var color in GameConstants.NumberedTileColors)
             {
-                foreach (int value in ValuesForNumberedTiles)
+                foreach (int value in GameConstants.NumberedTileValues)
                 {
-                    unshuffledTiles.Add(Tile.CreateNumberedTile(color, value));
-                    unshuffledTiles.Add(Tile.CreateNumberedTile(color, value));
+                    var tileClass = TileClass.CreateNumberedTileClass(color, value);
+                    unshuffledTiles.Add(Tile.Create(1, tileClass));
+                    unshuffledTiles.Add(Tile.Create(2, tileClass));
                 }
             }
 
-            unshuffledTiles.Add(Tile.CreateJoker());
-            unshuffledTiles.Add(Tile.CreateJoker());
+            unshuffledTiles.Add(Tile.Create(1, TileClass.Joker));
+            unshuffledTiles.Add(Tile.Create(2, TileClass.Joker));
 
             tiles = new Stack<ITile>(unshuffledTiles.SelectPermutation(randomSource));
         }

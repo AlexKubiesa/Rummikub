@@ -4,6 +4,8 @@ namespace RummikubLib.Game
 {
     static class GameConstants
     {
+        public const int TileCount = 106;
+
         public static IReadOnlyCollection<TileColor> NumberedTileColors { get; } = new[]
         {
             TileColor.Black, TileColor.Blue, TileColor.Red, TileColor.Yellow
