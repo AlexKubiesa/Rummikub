@@ -36,5 +36,10 @@ namespace RummikubLib
         {
             return new Sublists<T>(source);
         }
+
+        public static IMultiset<T> ToMultiset<T>(this IEnumerable<T> source)
+        {
+            return new Multiset<T>(source);
+        }
     }
 }

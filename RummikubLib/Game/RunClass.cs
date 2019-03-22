@@ -47,14 +47,14 @@ namespace RummikubLib.Game
 
         public ScoringSetType Type => ScoringSetType.Run;
 
-        public IEnumerator<ITileClass> GetEnumerator()
-        {
-            return ((IEnumerable<ITileClass>)tiles).GetEnumerator();
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public IEnumerator<ITileClass> GetEnumerator()
+        {
+            return ((IEnumerable<ITileClass>)tiles).GetEnumerator();
         }
 
         public int GetScore()

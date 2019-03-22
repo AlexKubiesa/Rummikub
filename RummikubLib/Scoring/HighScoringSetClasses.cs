@@ -3,14 +3,9 @@ using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
 {
-    public static class HighScoringSets
+    public static class HighScoringSetClasses
     {
-        public static readonly IEnumerable<IScoringSet> ScoringSets = GetScoringSets();
-
-        static readonly IEnumerable<TileColor> Colors = new[]
-        {
-            TileColor.Black, TileColor.Blue, TileColor.Red, TileColor.Yellow
-        };
+        public static readonly IEnumerable<IScoringSetClass> ScoringSetClasses = GetScoringSetClasses();
 
         static readonly IEnumerable<TileColor[]> CombinationsOfThreeTileColors = new[]
         {
@@ -27,17 +22,17 @@ namespace RummikubLib.Scoring
             new[] { 11, 12, 13 }
         };
 
-        static IEnumerable<IScoringSet> GetScoringSets()
+        static IEnumerable<IScoringSetClass> GetScoringSetClasses()
         {
             foreach (var colorCombination in CombinationsOfThreeTileColors)
             {
                 for (int value = 10; value <= 13; ++value)
                 {
-                    yield return ScoringSet.Create(new[]
+                    yield return ScoringSetClass.Create(new[]
                     {
-                        Tile.CreateNumberedTile(colorCombination[0], value),
-                        Tile.CreateNumberedTile(colorCombination[1], value),
-                        Tile.CreateNumberedTile(colorCombination[2], value)
+                        TileClass.CreateNumberedTileClass(colorCombination[0], value),
+                        TileClass.CreateNumberedTileClass(colorCombination[1], value),
+                        TileClass.CreateNumberedTileClass(colorCombination[2], value)
                     });
                 }
             }
@@ -48,9 +43,9 @@ namespace RummikubLib.Scoring
                 {
                     yield return ScoringSet.Create(new[]
                     {
-                        Tile.CreateNumberedTile(color, numberSequence[0]),
-                        Tile.CreateNumberedTile(color, numberSequence[1]),
-                        Tile.CreateNumberedTile(color, numberSequence[2])
+                        TileClass.CreateNumberedTileClass(color, numberSequence[0]),
+                        TileClass.CreateNumberedTileClass(color, numberSequence[1]),
+                        TileClass.CreateNumberedTileClass(color, numberSequence[2])
                     });
                 }
             }

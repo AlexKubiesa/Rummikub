@@ -14,7 +14,7 @@ namespace RummikubLib.Scoring
 
         public Range GetScoreInterval(IReadOnlyCollection<ITile> tiles)
         {
-            foreach (var scoringSet in HighScoringSets.ScoringSets)
+            foreach (var scoringSet in HighScoringSetClasses.ScoringSetClasses)
             {
                 if (scoringSet.Tiles.All(t => tiles.Contains(t, TileValueEqualityComparer.Instance)))
                 {
