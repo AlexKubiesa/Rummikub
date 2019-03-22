@@ -7,24 +7,22 @@ namespace RummikubLib.Scoring
 {
     class ScoreCalculationHelper
     {
-        public static IEnumerable<List<IScoringSet>> GetScoringSetCombinations(IMultiset<ITile> tiles)
+        public static IEnumerable<IReadOnlyMultiset<IScoringSetClass>> GetScoringSetCombinations(IReadOnlyMultiset<ITileClass> tiles)
         {
-            var scoringSetsUpToEquivalence = ScoringSet.GetScoringSetsUpToEquivalence(tiles).ToArray();
+            var scoringSetClasses = ScoringSetClass.GetScoringSetClasses(tiles);
 
-            return scoringSetsUpToEquivalence
-                .Concat(scoringSetsUpToEquivalence)
-                .ToArray()
-                .GetSublists()
+            return scoringSetClasses
+                .GetSubMultisets()
                 .Where(combination =>
-                    tiles.All(tile =>
-                        combination.Count(scoringSet =>
-                            scoringSet.Tiles.Contains(tile, TileValueEqualityComparer.Instance)) <=
-                        tiles.CountOf(otherTile => TileValueEqualityComparer.Instance.Equals(tile, otherTile))));
+                    tiles.GetDistinctElements().All(tileClass =>
+                        combination.GetElementsWithMultiplicity().Count(scoringSet =>
+                            scoringSet.Contains(tileClass)) <=
+                        tiles.CountOf(tileClass)));
         }
 
-        public static int GetScoreForCombination(IReadOnlyCollection<IScoringSet> scoringSetCombination)
+        public static int GetScoreForCombination(IReadOnlyMultiset<IScoringSetClass> scoringSetCombination)
         {
-            return scoringSetCombination.Sum(scoringSet => scoringSet.GetScore());
+            return scoringSetCombination.GetElementsWithMultiplicity().Sum(scoringSet => scoringSet.GetScore());
         }
     }
 }

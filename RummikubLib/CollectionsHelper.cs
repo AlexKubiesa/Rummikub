@@ -41,5 +41,10 @@ namespace RummikubLib
         {
             return new Multiset<T>(source);
         }
+
+        public static IEnumerable<IReadOnlyMultiset<T>> GetSubMultisets<T>(this IReadOnlyMultiset<T> multiset)
+        {
+
+        }
     }
 }
