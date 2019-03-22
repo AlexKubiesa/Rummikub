@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -25,9 +26,9 @@ namespace RummikubLib.Scoring
         {
         }
 
-        public IEnumerable<IScoreIntervalCalculator> GetScoreIntervalCalculators(IReadOnlyCollection<ITile> tiles)
+        public IEnumerable<IScoreIntervalCalculator> GetScoreIntervalCalculators(IReadOnlyMultiset<ITileClass> tiles)
         {
-            return tiles.Count < SmallToLargeThreshold
+            return tiles.CountWithMultiplicity < SmallToLargeThreshold
                 ? SequenceForSmallTileCollections
                 : SequenceForLargeTileCollections;
         }

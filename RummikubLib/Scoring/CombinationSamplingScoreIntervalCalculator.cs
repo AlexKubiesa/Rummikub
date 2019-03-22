@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -15,9 +16,9 @@ namespace RummikubLib.Scoring
         {
         }
 
-        public Range GetScoreInterval(IReadOnlyCollection<ITile> tiles)
+        public Range GetScoreInterval(IReadOnlyMultiset<ITileClass> tiles)
         {
-            var combinations = ScoreCalculationHelper.GetScoringSetCombinations(tiles.Select(t => t.Class).ToMultiset());
+            var combinations = ScoreCalculationHelper.GetScoringSetCombinations(tiles);
 
             int encounteredCombinations = 0;
             int bestScoreSoFar = 0;

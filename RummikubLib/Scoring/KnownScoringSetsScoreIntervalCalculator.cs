@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -12,11 +12,11 @@ namespace RummikubLib.Scoring
         {
         }
 
-        public Range GetScoreInterval(IReadOnlyCollection<ITile> tiles)
+        public Range GetScoreInterval(IReadOnlyMultiset<ITileClass> tiles)
         {
             foreach (var scoringSetClass in HighScoringSetClasses.ScoringSetClasses)
             {
-                if (scoringSetClass.All(tileClass => tiles.Any(tile => tile.Class.Equals(tileClass))))
+                if (scoringSetClass.All(tiles.Contains))
                 {
                     return new Range(scoringSetClass.GetScore(), double.PositiveInfinity);
                 }

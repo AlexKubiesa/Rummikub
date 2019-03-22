@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
 {
     public interface IScoreIntervalCalculator
     {
-        Range GetScoreInterval(IReadOnlyCollection<ITile> tiles);
+        Range GetScoreInterval(IReadOnlyMultiset<ITileClass> tiles);
     }
 }

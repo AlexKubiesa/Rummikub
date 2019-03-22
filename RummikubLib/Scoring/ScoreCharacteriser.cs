@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -15,22 +16,22 @@ namespace RummikubLib.Scoring
 
         public Result IsScoreLessThanThreshold(IReadOnlyCollection<ITile> tiles, int threshold)
         {
-            return IsScoreLessThanThresholdDestructive(tiles.ToList(), threshold);
+            return IsScoreLessThanThresholdDestructive(tiles.Select(t => t.Class).ToMultiset(), threshold);
         }
 
-        static Result IsScoreLessThanThresholdDestructive(List<ITile> tiles, int threshold)
+        static Result IsScoreLessThanThresholdDestructive(IMultiset<ITileClass> tiles, int threshold)
         {
             if (threshold <= 0)
             {
                 return Result.No;
             }
 
-            if (tiles.Count == 0)
+            if (tiles.DistinctCount == 0)
             {
                 return Result.Yes;
             }
 
-            RemoveJokers(tiles);
+            tiles.RemoveAll(TileClass.Joker);
 
             var partition = PartitionProvider.Instance.GetPartition(tiles);
 
@@ -56,25 +57,15 @@ namespace RummikubLib.Scoring
             return Result.Maybe;
         }
 
-        static void RemoveJokers(ICollection<ITile> tiles)
-        {
-            var jokers = tiles.Where(t => t.IsJoker).ToArray();
-
-            foreach (var joker in jokers)
-            {
-                tiles.Remove(joker);
-            }
-        }
-
         class ScoreIntervalCalculation
         {
-            readonly IReadOnlyCollection<ITile> component;
+            readonly IReadOnlyMultiset<ITileClass> component;
 
             readonly IEnumerator<IScoreIntervalCalculator> enumerator;
 
             bool finished;
 
-            public ScoreIntervalCalculation(IReadOnlyCollection<ITile> component)
+            public ScoreIntervalCalculation(IReadOnlyMultiset<ITileClass> component)
             {
                 this.component = component ?? throw new ArgumentNullException(nameof(component));
                 enumerator = ScoreIntervalCalculatorSequenceProvider.Instance

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -12,7 +12,7 @@ namespace RummikubLib.Scoring
         {
         }
 
-        public int GetScore(IReadOnlyCollection<ITile> tiles)
+        public int GetScore(IReadOnlyMultiset<ITileClass> tiles)
         {
             return ScoreCalculationHelper.GetScoringSetCombinations(tiles)
                 .Select(ScoreCalculationHelper.GetScoreForCombination)

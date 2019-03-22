@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -12,9 +12,9 @@ namespace RummikubLib.Scoring
         {
         }
 
-        public Range GetScoreInterval(IReadOnlyCollection<ITile> tiles)
+        public Range GetScoreInterval(IReadOnlyMultiset<ITileClass> tiles)
         {
-            return new Range(0, tiles.Sum(t => t.Value));
+            return new Range(0, tiles.GetElementsWithMultiplicity().Sum(t => t.Value));
         }
     }
 }
