@@ -41,11 +41,15 @@ namespace RummikubLib.Game
             tiles = Enumerable.Range(startValue, length)
                 .Select(value => TileClass.CreateNumberedTileClass(color, value))
                 .ToArray();
+
+            Color = color;
         }
 
         public int Count => tiles.Length;
 
         public ScoringSetType Type => ScoringSetType.Run;
+
+        public TileColor Color { get; }
 
         IEnumerator IEnumerable.GetEnumerator()
         {

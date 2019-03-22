@@ -9,6 +9,11 @@ namespace RummikubLib.Collections
     {
         readonly Dictionary<T, int> dict;
 
+        public Multiset()
+        {
+            dict = new Dictionary<T, int>();
+        }
+
         public Multiset(IEnumerable<T> source)
         {
             if (source == null)
@@ -77,10 +82,25 @@ namespace RummikubLib.Collections
             return GetEnumerator();
         }
 
-        void AddItem(T item, int multiplicity = 1)
+        public void AddOne(T item)
         {
-            Count += multiplicity;
-            dict[item] = dict.TryGetValue(item, out int count) ? count + multiplicity : multiplicity;
+            AddItem(item);
+        }
+
+        public void AddMany(T item, int count)
+        {
+            if (count <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+
+            AddItem(item, count);
+        }
+
+        void AddItem(T item, int count = 1)
+        {
+            Count += count;
+            dict[item] = dict.TryGetValue(item, out int oldCount) ? oldCount + count : count;
         }
 
         void RemoveItem(T item, int multiplicity)

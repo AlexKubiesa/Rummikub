@@ -57,6 +57,7 @@
     <Compile Include="Game\IScoringSetClass.cs" />
     <Compile Include="Game\ITileClass.cs" />
     <Compile Include="Game\RunClass.cs" />
+    <Compile Include="Game\ScoringSetClass.cs" />
     <Compile Include="Game\TileClass.cs" />
     <Compile Include="Scoring\HighScoringSetClasses.cs" />
     <Compile Include="Scoring\IPartitionProvider.cs" />
