@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using RummikubLib.Collections;
 
 namespace RummikubLib
@@ -37,7 +38,7 @@ namespace RummikubLib
             return new Sublists<T>(source);
         }
 
-        public static IMultiset<T> ToMultiset<T>(this IEnumerable<T> source)
+        public static Multiset<T> ToMultiset<T>(this IEnumerable<T> source)
         {
             return new Multiset<T>(source);
         }
@@ -45,6 +46,13 @@ namespace RummikubLib
         public static IEnumerable<IReadOnlyMultiset<T>> GetSubMultisets<T>(this IReadOnlyMultiset<T> multiset)
         {
             return new SubMultisets<T>(multiset);
+        }
+
+        public static IMultiset<T> Intersect<T>(this IReadOnlyMultiset<T> multiset, IReadOnlyMultiset<T> other)
+        {
+            var elementCounts = multiset.GetDistinctElements()
+                .ToDictionary(x => x, x => Math.Min(multiset.CountOf(x), other.CountOf(x)));
+            return new Multiset<T>(elementCounts);
         }
     }
 }

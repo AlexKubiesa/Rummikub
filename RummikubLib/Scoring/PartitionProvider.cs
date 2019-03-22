@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -12,57 +13,57 @@ namespace RummikubLib.Scoring
         {
         }
 
-        public IEnumerable<IReadOnlyCollection<ITile>> GetPartition(IReadOnlyCollection<ITile> tiles)
+        public IEnumerable<IMultiset<ITileClass>> GetPartition(IReadOnlyMultiset<ITileClass> tiles)
         {
-            var partition = new List<HashSet<ITile>>();
+            var partition = new List<Multiset<ITileClass>>();
 
-            var maximalScoringSets = ScoringSet.GetMaximalScoringSetsUpToEquivalence(tiles).ToList();
+            var maximalScoringSetClasses = ScoringSetClass.GetMaximalScoringSetClasses(tiles).ToList();
 
-            while (maximalScoringSets.Count > 0)
+            while (maximalScoringSetClasses.Count > 0)
             {
-                var newComponent = new HashSet<ITile>(maximalScoringSets[maximalScoringSets.Count - 1].Tiles);
+                var newComponentElementCounts = maximalScoringSetClasses[maximalScoringSetClasses.Count - 1]
+                    .ToDictionary(x => x, tiles.CountOf);
+                var newComponent = new Multiset<ITileClass>(newComponentElementCounts);
                 partition.Add(newComponent);
-                maximalScoringSets.RemoveAt(maximalScoringSets.Count - 1);
+                maximalScoringSetClasses.RemoveAt(maximalScoringSetClasses.Count - 1);
 
                 bool newScoringSetFound;
                 do
                 {
-                    var scoringSetsToMerge = maximalScoringSets.Where(x =>
-                        newComponent.Intersect(x.Tiles, TileValueEqualityComparer.Instance).Any())
+                    var scoringSetClassesToMerge = maximalScoringSetClasses
+                        .Where(x => newComponent.Intersect(x.ToMultiset()).DistinctCount != 0)
                         .ToArray();
 
-                    foreach (var scoringSet in scoringSetsToMerge)
+                    foreach (var scoringSetClass in scoringSetClassesToMerge)
                     {
-                        newComponent.UnionWith(scoringSet.Tiles);
-                        maximalScoringSets.Remove(scoringSet);
+                        var scoringSetClassElementCounts = scoringSetClass
+                            .ToDictionary(x => x, tiles.CountOf);
+                        var multisetToMerge = new Multiset<ITileClass>(scoringSetClassElementCounts);
+
+                        newComponent.UnionWith(multisetToMerge);
+                        maximalScoringSetClasses.Remove(scoringSetClass);
                     }
 
-                    newScoringSetFound = scoringSetsToMerge.Length != 0;
+                    newScoringSetFound = scoringSetClassesToMerge.Length != 0;
                 } while (newScoringSetFound);
             }
 
-            var singletonTiles = new List<ITile>();
-            foreach (var tile in tiles)
+            // For each tile class not yet in a component, put it into its own component.
+            var singletonTileClasses = new List<ITileClass>();
+            foreach (var tileClass in tiles.GetDistinctElements())
             {
-                // ReSharper disable once PossibleUnintendedLinearSearchInSet
-                // We want to use a specific equality comparer here, so we have to use the LINQ Contains method.
-                var component = partition.FirstOrDefault(x => x.Contains(tile, TileValueEqualityComparer.Instance));
+                var component = partition.FirstOrDefault(x => x.Contains(tileClass));
 
                 if (component == null)
                 {
-                    // The tile will be in its own component.
-                    singletonTiles.Add(tile);
-                }
-                else
-                {
-                    // Add the tile, in case the component contains an equivalent tile but does not contain this tile.
-                    component.Add(tile);
+                    singletonTileClasses.Add(tileClass);
                 }
             }
 
-            foreach (var tile in singletonTiles)
+            foreach (var tileClass in singletonTileClasses)
             {
-                partition.Add(new HashSet<ITile> { tile });
+                var elementCounts = new Dictionary<ITileClass, int> { { tileClass, tiles.CountOf(tileClass) } };
+                partition.Add(new Multiset<ITileClass>(elementCounts));
             }
 
             return partition;

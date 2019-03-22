@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RummikubLib.Collections;
 using RummikubLib.Game;
 
 namespace RummikubLib.Scoring
@@ -8,6 +9,6 @@ namespace RummikubLib.Scoring
     /// </summary>
     public interface IPartitionProvider
     {
-        IEnumerable<IReadOnlyCollection<ITile>> GetPartition(IReadOnlyCollection<ITile> tiles);
+        IEnumerable<IMultiset<ITileClass>> GetPartition(IReadOnlyMultiset<ITileClass> tiles);
     }
 }

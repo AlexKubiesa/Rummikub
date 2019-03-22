@@ -76,11 +76,27 @@ namespace RummikubLib.Collections
         {
             foreach (var item in other.GetDistinctElements())
             {
-                AddItem(item, other.CountOf(item));
+                SetItemCount(item, Math.Max(CountOf(item), other.CountOf(item)));
             }
         }
 
         public void IntersectWith(IMultiset<T> other)
+        {
+            foreach (var item in other.GetDistinctElements())
+            {
+                SetItemCount(item, Math.Min(CountOf(item), other.CountOf(item)));
+            }
+        }
+
+        public void SumWith(IMultiset<T> other)
+        {
+            foreach (var item in other.GetDistinctElements())
+            {
+                AddItem(item, other.CountOf(item));
+            }
+        }
+
+        public void ExceptWith(IMultiset<T> other)
         {
             foreach (var item in other.GetDistinctElements())
             {
@@ -113,6 +129,11 @@ namespace RummikubLib.Collections
             AddItem(item, count);
         }
 
+        public void RemoveAll(T item)
+        {
+            RemoveItem(item, CountOf(item));
+        }
+
         void AddItem(T item, int count = 1)
         {
             CountWithMultiplicity += count;
@@ -134,6 +155,16 @@ namespace RummikubLib.Collections
             {
                 dict[item] = count - multiplicity;
             }
+        }
+
+        void SetItemCount(T item, int count)
+        {
+            if (count == 0)
+            {
+                dict.Remove(item);
+            }
+
+            dict[item] = count;
         }
     }
 }
