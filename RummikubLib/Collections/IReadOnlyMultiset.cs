@@ -17,6 +17,9 @@ namespace RummikubLib.Collections
         IEnumerable<T> GetDistinctElements();
 
         IEnumerable<T> GetElementsWithMultiplicity();
+
         int DistinctCount { get; }
+
+        int CountWithMultiplicity { get; }
     }
 }

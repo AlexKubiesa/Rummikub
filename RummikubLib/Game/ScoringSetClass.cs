@@ -15,22 +15,22 @@ namespace RummikubLib.Game
                 throw new ArgumentNullException(nameof(tiles));
             }
 
-            if (tiles.Count < 3 || tiles.Contains(TileClass.Joker))
+            if (tiles.CountWithMultiplicity < 3 || tiles.Contains(TileClass.Joker))
             {
                 return null;
             }
 
-            if (tiles.Any(x => tiles.CountOf(x) != 1))
+            if (tiles.DistinctCount != tiles.CountWithMultiplicity)
             {
                 return null;
             }
 
-            var colors = tiles.Select(t => t.Color).Distinct().ToArray();
-            var values = tiles.Select(t => t.Value).OrderBy(x => x).Distinct().ToArray();
+            var colors = tiles.GetDistinctElements().Select(t => t.Color).Distinct().ToArray();
+            var values = tiles.GetDistinctElements().Select(t => t.Value).OrderBy(x => x).Distinct().ToArray();
 
             if (colors.Length == 1)
             {
-                if (values.Length != tiles.Count)
+                if (values.Length != tiles.CountWithMultiplicity)
                 {
                     return null;
                 }
@@ -42,7 +42,7 @@ namespace RummikubLib.Game
                     : null;
             }
 
-            if (colors.Length != tiles.Count)
+            if (colors.Length != tiles.CountWithMultiplicity)
             {
                 return null;
             }
@@ -69,11 +69,12 @@ namespace RummikubLib.Game
             var maximalGroups = new List<IScoringSetClass>();
             var maximalRuns = new List<IScoringSetClass>();
 
-            foreach (var tile in tiles.Where(t => !t.IsJoker))
+            foreach (var tile in tiles.GetDistinctElements().Where(t => !t.IsJoker))
             {
                 if (!maximalGroups.Any(x => x.Contains(tile)))
                 {
                     var potentialGroupColors = tiles
+                        .GetDistinctElements()
                         .Where(t => t.Value == tile.Value)
                         .Select(t => t.Color)
                         .ToArray();
@@ -87,6 +88,7 @@ namespace RummikubLib.Game
                 if (!maximalRuns.Any(x => x.Contains(tile)))
                 {
                     var potentialRunValues = tiles
+                        .GetDistinctElements()
                         .Where(t => t.Color == tile.Color)
                         .Select(t => t.Value)
                         .OrderBy(x => x)
