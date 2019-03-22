@@ -17,7 +17,7 @@ namespace RummikubLib.Scoring
 
         public Range GetScoreInterval(IReadOnlyCollection<ITile> tiles)
         {
-            var combinations = ScoreCalculationHelper.GetScoringSetCombinations(tiles);
+            var combinations = ScoreCalculationHelper.GetScoringSetCombinations(tiles.Select(t => t.Class).ToMultiset());
 
             int encounteredCombinations = 0;
             int bestScoreSoFar = 0;
