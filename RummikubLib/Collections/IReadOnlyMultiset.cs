@@ -20,6 +20,6 @@ namespace RummikubLib.Collections
 
         int DistinctCount { get; }
 
-        int CountWithMultiplicity { get; }
+        int TotalCount { get; }
     }
 }

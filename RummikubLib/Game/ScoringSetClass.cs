@@ -15,12 +15,12 @@ namespace RummikubLib.Game
                 throw new ArgumentNullException(nameof(tiles));
             }
 
-            if (tiles.CountWithMultiplicity < 3 || tiles.Contains(TileClass.Joker))
+            if (tiles.TotalCount < 3 || tiles.Contains(TileClass.Joker))
             {
                 return null;
             }
 
-            if (tiles.DistinctCount != tiles.CountWithMultiplicity)
+            if (tiles.DistinctCount != tiles.TotalCount)
             {
                 return null;
             }
@@ -30,7 +30,7 @@ namespace RummikubLib.Game
 
             if (colors.Length == 1)
             {
-                if (values.Length != tiles.CountWithMultiplicity)
+                if (values.Length != tiles.TotalCount)
                 {
                     return null;
                 }
@@ -42,7 +42,7 @@ namespace RummikubLib.Game
                     : null;
             }
 
-            if (colors.Length != tiles.CountWithMultiplicity)
+            if (colors.Length != tiles.TotalCount)
             {
                 return null;
             }

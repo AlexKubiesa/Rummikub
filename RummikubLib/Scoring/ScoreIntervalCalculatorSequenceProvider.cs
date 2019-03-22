@@ -28,7 +28,7 @@ namespace RummikubLib.Scoring
 
         public IEnumerable<IScoreIntervalCalculator> GetScoreIntervalCalculators(IReadOnlyMultiset<ITileClass> tiles)
         {
-            return tiles.CountWithMultiplicity < SmallToLargeThreshold
+            return tiles.TotalCount < SmallToLargeThreshold
                 ? SequenceForSmallTileCollections
                 : SequenceForLargeTileCollections;
         }

@@ -45,7 +45,7 @@ namespace RummikubLib.Collections
 
         public int DistinctCount => dict.Count(x => x.Value != 0);
 
-        public int CountWithMultiplicity { get; private set; }
+        public int TotalCount { get; private set; }
 
         public bool Contains(T item)
         {
@@ -136,35 +136,49 @@ namespace RummikubLib.Collections
 
         void AddItem(T item, int count = 1)
         {
-            CountWithMultiplicity += count;
+            TotalCount += count;
             dict[item] = dict.TryGetValue(item, out int oldCount) ? oldCount + count : count;
         }
 
-        void RemoveItem(T item, int multiplicity)
+        void RemoveItem(T item, int count)
         {
-            if (!dict.TryGetValue(item, out int count))
+            if (!dict.TryGetValue(item, out int oldCount))
             {
                 return;
             }
 
-            if (multiplicity >= count)
+            if (count >= oldCount)
             {
+                TotalCount -= oldCount;
                 dict.Remove(item);
             }
             else
             {
-                dict[item] = count - multiplicity;
+                TotalCount -= count;
+                dict[item] = oldCount - count;
             }
         }
 
         void SetItemCount(T item, int count)
         {
+            if (!dict.TryGetValue(item, out int oldCount))
+            {
+                if (count == 0)
+                {
+                    return;
+                }
+
+                TotalCount += count;
+                dict[item] = count;
+                return;
+            }
+
+            TotalCount += count - oldCount;
+
             if (count == 0)
             {
                 dict.Remove(item);
             }
-
-            dict[item] = count;
         }
     }
 }
