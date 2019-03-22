@@ -28,7 +28,24 @@ namespace RummikubLib.Collections
             }
         }
 
-        public int Count { get; private set; }
+        public Multiset(IEnumerable<KeyValuePair<T, int>> elementCounts)
+        {
+            if (elementCounts == null)
+            {
+                throw new ArgumentNullException(nameof(elementCounts));
+            }
+
+            dict = new Dictionary<T, int>();
+
+            foreach (var kvp in elementCounts)
+            {
+                AddItem(kvp.Key, kvp.Value);
+            }
+        }
+
+        public int DistinctCount => dict.Count(x => x.Value != 0);
+
+        public int CountWithMultiplicity { get; private set; }
 
         public bool Contains(T item)
         {
@@ -98,7 +115,7 @@ namespace RummikubLib.Collections
 
         void AddItem(T item, int count = 1)
         {
-            Count += count;
+            CountWithMultiplicity += count;
             dict[item] = dict.TryGetValue(item, out int oldCount) ? oldCount + count : count;
         }
 

@@ -52,6 +52,8 @@
     <Compile Include="Collections\Sublists.cs" />
     <Compile Include="Collections\SublistsEnumerator.cs" />
     <Compile Include="CollectionsHelper.cs" />
+    <Compile Include="Collections\SubMultisets.cs" />
+    <Compile Include="Collections\SubMultisetsEnumerator.cs" />
     <Compile Include="Game\GameConstants.cs" />
     <Compile Include="Game\GroupClass.cs" />
     <Compile Include="Game\IScoringSetClass.cs" />

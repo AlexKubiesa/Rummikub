@@ -22,6 +22,8 @@ namespace RummikubLib.Collections
             sublistSeed = -1;
         }
 
+        object IEnumerator.Current => Current;
+
         public List<T> Current
         {
             get
@@ -34,8 +36,6 @@ namespace RummikubLib.Collections
                 return current;
             }
         }
-
-        object IEnumerator.Current => Current;
 
         public bool MoveNext()
         {
