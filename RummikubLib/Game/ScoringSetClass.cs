@@ -155,8 +155,6 @@ namespace RummikubLib.Game
             {
                 for (int startIndex = 0; startIndex <= tiles.Length - runLength; ++startIndex)
                 {
-                    var containedRun = new ITile[runLength];
-                    Array.Copy(tiles, startIndex, containedRun, 0, runLength);
                     yield return new RunClass(runClass.Color, tiles[startIndex].Value, tiles[startIndex + runLength - 1].Value);
                 }
             }

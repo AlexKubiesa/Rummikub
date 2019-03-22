@@ -11,19 +11,19 @@ namespace RummikubTests.Scoring
         public static IEnumerable<TestCaseData> IsUnderThresholdTestCases = new[]
         {
             new TestCaseData(
-                    new[] { Tile.CreateNumberedTile(TileColor.Black, 1) },
+                    new[] { Tile.CreateNumberedTile(1, TileColor.Black, 1) },
                     0)
                 .Returns(Result.No)
                 .SetName("No tiles (threshold = 0)"),
 
             new TestCaseData(
-                    new[] { Tile.CreateNumberedTile(TileColor.Black, 1) },
+                    new[] { Tile.CreateNumberedTile(1, TileColor.Black, 1) },
                     1)
                 .Returns(Result.Yes)
                 .SetName("No tiles (threshold = 1)"),
 
             new TestCaseData(
-                    new[] { Tile.CreateNumberedTile(TileColor.Black, 1) },
+                    new[] { Tile.CreateNumberedTile(1, TileColor.Black, 1) },
                     1)
                 .Returns(Result.Yes)
                 .SetName("Single tile"),
@@ -31,9 +31,9 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateJoker()
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateJoker(1)
                     },
                     2)
                 .Returns(Result.Yes)
@@ -42,9 +42,9 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateJoker()
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateJoker(1)
                     },
                     2)
                 .Returns(Result.Yes)
@@ -53,9 +53,9 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3)
                     },
                     5)
                 .Returns(Result.No)
@@ -64,10 +64,10 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Black, 4)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 4)
                     },
                     10)
                 .Returns(Result.No)
@@ -76,9 +76,9 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Red, 1)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 1)
                     },
                     3)
                 .Returns(Result.No)
@@ -87,10 +87,10 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Red, 1),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 1)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 1)
                     },
                     4)
                 .Returns(Result.No)
@@ -99,12 +99,12 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 2),
-                        Tile.CreateNumberedTile(TileColor.Blue, 3)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 3)
                     },
                     12)
                 .Returns(Result.No)
@@ -113,12 +113,12 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Red, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Blue, 2),
-                        Tile.CreateNumberedTile(TileColor.Red, 2)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 2)
                     },
                     9)
                 .Returns(Result.No)
@@ -127,10 +127,10 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 1)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 1)
                     },
                     7)
                 .Returns(Result.Yes)
@@ -139,12 +139,12 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Black, 4)
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 4)
                     },
                     15)
                 .Returns(Result.No)
@@ -153,11 +153,11 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Red, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 1),
                     },
                     6)
                 .Returns(Result.No)
@@ -166,11 +166,11 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Blue, 3),
-                        Tile.CreateNumberedTile(TileColor.Red, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 3),
                     },
                     9)
                 .Returns(Result.No)
@@ -179,112 +179,112 @@ namespace RummikubTests.Scoring
             new TestCaseData(
                     new[]
                     {
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 1),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 2),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Black, 3),
-                        Tile.CreateNumberedTile(TileColor.Black, 4),
-                        Tile.CreateNumberedTile(TileColor.Black, 4),
-                        Tile.CreateNumberedTile(TileColor.Black, 5),
-                        Tile.CreateNumberedTile(TileColor.Black, 5),
-                        Tile.CreateNumberedTile(TileColor.Black, 6),
-                        Tile.CreateNumberedTile(TileColor.Black, 6),
-                        Tile.CreateNumberedTile(TileColor.Black, 7),
-                        Tile.CreateNumberedTile(TileColor.Black, 7),
-                        Tile.CreateNumberedTile(TileColor.Black, 8),
-                        Tile.CreateNumberedTile(TileColor.Black, 8),
-                        Tile.CreateNumberedTile(TileColor.Black, 9),
-                        Tile.CreateNumberedTile(TileColor.Black, 9),
-                        Tile.CreateNumberedTile(TileColor.Black, 10),
-                        Tile.CreateNumberedTile(TileColor.Black, 10),
-                        Tile.CreateNumberedTile(TileColor.Black, 11),
-                        Tile.CreateNumberedTile(TileColor.Black, 11),
-                        Tile.CreateNumberedTile(TileColor.Black, 12),
-                        Tile.CreateNumberedTile(TileColor.Black, 12),
-                        Tile.CreateNumberedTile(TileColor.Black, 13),
-                        Tile.CreateNumberedTile(TileColor.Black, 13),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 1),
-                        Tile.CreateNumberedTile(TileColor.Blue, 2),
-                        Tile.CreateNumberedTile(TileColor.Blue, 2),
-                        Tile.CreateNumberedTile(TileColor.Blue, 3),
-                        Tile.CreateNumberedTile(TileColor.Blue, 3),
-                        Tile.CreateNumberedTile(TileColor.Blue, 4),
-                        Tile.CreateNumberedTile(TileColor.Blue, 4),
-                        Tile.CreateNumberedTile(TileColor.Blue, 5),
-                        Tile.CreateNumberedTile(TileColor.Blue, 5),
-                        Tile.CreateNumberedTile(TileColor.Blue, 6),
-                        Tile.CreateNumberedTile(TileColor.Blue, 6),
-                        Tile.CreateNumberedTile(TileColor.Blue, 7),
-                        Tile.CreateNumberedTile(TileColor.Blue, 7),
-                        Tile.CreateNumberedTile(TileColor.Blue, 8),
-                        Tile.CreateNumberedTile(TileColor.Blue, 8),
-                        Tile.CreateNumberedTile(TileColor.Blue, 9),
-                        Tile.CreateNumberedTile(TileColor.Blue, 9),
-                        Tile.CreateNumberedTile(TileColor.Blue, 10),
-                        Tile.CreateNumberedTile(TileColor.Blue, 10),
-                        Tile.CreateNumberedTile(TileColor.Blue, 11),
-                        Tile.CreateNumberedTile(TileColor.Blue, 11),
-                        Tile.CreateNumberedTile(TileColor.Blue, 12),
-                        Tile.CreateNumberedTile(TileColor.Blue, 12),
-                        Tile.CreateNumberedTile(TileColor.Blue, 13),
-                        Tile.CreateNumberedTile(TileColor.Blue, 13),
-                        Tile.CreateNumberedTile(TileColor.Red, 1),
-                        Tile.CreateNumberedTile(TileColor.Red, 1),
-                        Tile.CreateNumberedTile(TileColor.Red, 2),
-                        Tile.CreateNumberedTile(TileColor.Red, 2),
-                        Tile.CreateNumberedTile(TileColor.Red, 3),
-                        Tile.CreateNumberedTile(TileColor.Red, 3),
-                        Tile.CreateNumberedTile(TileColor.Red, 4),
-                        Tile.CreateNumberedTile(TileColor.Red, 4),
-                        Tile.CreateNumberedTile(TileColor.Red, 5),
-                        Tile.CreateNumberedTile(TileColor.Red, 5),
-                        Tile.CreateNumberedTile(TileColor.Red, 6),
-                        Tile.CreateNumberedTile(TileColor.Red, 6),
-                        Tile.CreateNumberedTile(TileColor.Red, 7),
-                        Tile.CreateNumberedTile(TileColor.Red, 7),
-                        Tile.CreateNumberedTile(TileColor.Red, 8),
-                        Tile.CreateNumberedTile(TileColor.Red, 8),
-                        Tile.CreateNumberedTile(TileColor.Red, 9),
-                        Tile.CreateNumberedTile(TileColor.Red, 9),
-                        Tile.CreateNumberedTile(TileColor.Red, 10),
-                        Tile.CreateNumberedTile(TileColor.Red, 10),
-                        Tile.CreateNumberedTile(TileColor.Red, 11),
-                        Tile.CreateNumberedTile(TileColor.Red, 11),
-                        Tile.CreateNumberedTile(TileColor.Red, 12),
-                        Tile.CreateNumberedTile(TileColor.Red, 12),
-                        Tile.CreateNumberedTile(TileColor.Red, 13),
-                        Tile.CreateNumberedTile(TileColor.Red, 13),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 1),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 1),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 2),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 2),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 3),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 3),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 4),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 4),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 5),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 5),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 6),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 6),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 7),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 7),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 8),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 8),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 9),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 9),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 10),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 10),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 11),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 11),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 12),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 12),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 13),
-                        Tile.CreateNumberedTile(TileColor.Yellow, 13),
-                        Tile.CreateJoker(),
-                        Tile.CreateJoker()
+                        Tile.CreateNumberedTile(1, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 4),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 4),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 5),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 5),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 6),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 6),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 7),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 7),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 8),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 8),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 9),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 9),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 10),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 10),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 11),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 11),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 12),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 12),
+                        Tile.CreateNumberedTile(1, TileColor.Black, 13),
+                        Tile.CreateNumberedTile(2, TileColor.Black, 13),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 2),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 3),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 4),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 4),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 5),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 5),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 6),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 6),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 7),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 7),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 8),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 8),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 9),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 9),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 10),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 10),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 11),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 11),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 12),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 12),
+                        Tile.CreateNumberedTile(1, TileColor.Blue, 13),
+                        Tile.CreateNumberedTile(2, TileColor.Blue, 13),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 1),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 2),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 3),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 4),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 4),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 5),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 5),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 6),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 6),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 7),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 7),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 8),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 8),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 9),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 9),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 10),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 10),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 11),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 11),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 12),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 12),
+                        Tile.CreateNumberedTile(1, TileColor.Red, 13),
+                        Tile.CreateNumberedTile(2, TileColor.Red, 13),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 1),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 1),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 2),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 2),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 3),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 3),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 4),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 4),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 5),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 5),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 6),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 6),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 7),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 7),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 8),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 8),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 9),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 9),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 10),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 10),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 11),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 11),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 12),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 12),
+                        Tile.CreateNumberedTile(1, TileColor.Yellow, 13),
+                        Tile.CreateNumberedTile(2, TileColor.Yellow, 13),
+                        Tile.CreateJoker(1),
+                        Tile.CreateJoker(2)
                     },
                     30)
                 .Returns(Result.No)

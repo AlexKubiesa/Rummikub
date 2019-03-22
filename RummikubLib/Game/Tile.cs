@@ -14,6 +14,16 @@ namespace RummikubLib.Game
             return new Tile(id, @class);
         }
 
+        public static ITile CreateNumberedTile(int id, TileColor color, int value)
+        {
+            return new Tile(id, TileClass.CreateNumberedTileClass(color, value));
+        }
+
+        public static ITile CreateJoker(int id)
+        {
+            return new Tile(id, TileClass.Joker);
+        }
+
         Tile(int id, ITileClass @class)
         {
             Id = id;
