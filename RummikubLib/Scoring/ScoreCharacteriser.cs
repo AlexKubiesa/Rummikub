@@ -26,12 +26,12 @@ namespace RummikubLib.Scoring
                 return Result.No;
             }
 
-            if (tiles.DistinctCount == 0)
+            tiles.RemoveAll(TileClass.Joker);
+
+            if (tiles.TotalCount == 0)
             {
                 return Result.Yes;
             }
-
-            tiles.RemoveAll(TileClass.Joker);
 
             var partition = PartitionProvider.Instance.GetPartition(tiles);
 
