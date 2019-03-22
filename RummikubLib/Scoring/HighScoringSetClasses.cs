@@ -28,25 +28,15 @@ namespace RummikubLib.Scoring
             {
                 for (int value = 10; value <= 13; ++value)
                 {
-                    yield return ScoringSetClass.Create(new[]
-                    {
-                        TileClass.CreateNumberedTileClass(colorCombination[0], value),
-                        TileClass.CreateNumberedTileClass(colorCombination[1], value),
-                        TileClass.CreateNumberedTileClass(colorCombination[2], value)
-                    });
+                    yield return new GroupClass(colorCombination, value);
                 }
             }
 
             foreach (var numberSequence in SequencesOfThreeNumbers)
             {
-                foreach (var color in Colors)
+                foreach (var color in GameConstants.NumberedTileColors)
                 {
-                    yield return ScoringSet.Create(new[]
-                    {
-                        TileClass.CreateNumberedTileClass(color, numberSequence[0]),
-                        TileClass.CreateNumberedTileClass(color, numberSequence[1]),
-                        TileClass.CreateNumberedTileClass(color, numberSequence[2])
-                    });
+                    yield return new RunClass(color, numberSequence[0], numberSequence[2]);
                 }
             }
         }
