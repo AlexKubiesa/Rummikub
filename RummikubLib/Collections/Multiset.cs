@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,22 +42,22 @@ namespace RummikubLib.Collections
 
         public bool SetEquals(IReadOnlyMultiset<T> other)
         {
-            return this.Union(other).All(x => CountOf(x) == other.CountOf(x));
+            return GetDistinctElements().Union(other.GetDistinctElements()).All(x => CountOf(x) == other.CountOf(x));
         }
 
         public bool IsSubsetOf(IReadOnlyMultiset<T> other)
         {
-            return this.All(x => CountOf(x) <= other.CountOf(x));
+            return GetDistinctElements().All(x => CountOf(x) <= other.CountOf(x));
         }
 
         public bool IsSupersetOf(IReadOnlyMultiset<T> other)
         {
-            return other.All(x => CountOf(x) >= other.CountOf(x));
+            return other.GetDistinctElements().All(x => CountOf(x) >= other.CountOf(x));
         }
 
         public void UnionWith(IMultiset<T> other)
         {
-            foreach (var item in other)
+            foreach (var item in other.GetDistinctElements())
             {
                 AddItem(item, other.CountOf(item));
             }
@@ -66,20 +65,20 @@ namespace RummikubLib.Collections
 
         public void IntersectWith(IMultiset<T> other)
         {
-            foreach (var item in other)
+            foreach (var item in other.GetDistinctElements())
             {
                 RemoveItem(item, other.CountOf(item));
             }
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerable<T> GetDistinctElements()
         {
-            return dict.Where(x => x.Value != 0).Select(x => x.Key).GetEnumerator();
+            return dict.Where(x => x.Value != 0).Select(x => x.Key);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerable<T> GetElementsWithMultiplicity()
         {
-            return GetEnumerator();
+            return dict.Where(x => x.Value != 0).SelectMany(x => Enumerable.Repeat(x.Key, x.Value));
         }
 
         public void AddOne(T item)

@@ -2,7 +2,7 @@
 
 namespace RummikubLib.Collections
 {
-    public interface IReadOnlyMultiset<T> : IReadOnlyCollection<T>
+    public interface IReadOnlyMultiset<T>
     {
         bool Contains(T item);
 
@@ -13,5 +13,9 @@ namespace RummikubLib.Collections
         bool IsSubsetOf(IReadOnlyMultiset<T> other);
 
         bool IsSupersetOf(IReadOnlyMultiset<T> other);
+
+        IEnumerable<T> GetDistinctElements();
+
+        IEnumerable<T> GetElementsWithMultiplicity();
     }
 }
